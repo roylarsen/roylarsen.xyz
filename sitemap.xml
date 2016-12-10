@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/</loc>
+    <lastmod>2016-12-10T17:49:12-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/posts/first/</loc>
+    <lastmod>2016-12-10T17:49:12-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/about/</loc>
+    <lastmod>2016-12-10T16:04:53-05:00</lastmod>
+  </url>
+  
+</urlset>

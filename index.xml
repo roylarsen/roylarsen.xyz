@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>roybot</title>
+    <link>http://www.roylarsen.xyz/index.xml</link>
+    <description>Recent content on roybot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>info@roylarsen.xyz (Roy Larsen)</managingEditor>
+    <webMaster>info@roylarsen.xyz (Roy Larsen)</webMaster>
+    <lastBuildDate>Sat, 10 Dec 2016 17:49:12 -0500</lastBuildDate>
+    <atom:link href="http://www.roylarsen.xyz/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>first</title>
+      <link>http://www.roylarsen.xyz/posts/first/</link>
+      <pubDate>Sat, 10 Dec 2016 17:49:12 -0500</pubDate>
+      <author>info@roylarsen.xyz (Roy Larsen)</author>
+      <guid>http://www.roylarsen.xyz/posts/first/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;m going to make another attempt at starting a personal site/blog.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ll see how that goes.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>about me</title>
+      <link>http://www.roylarsen.xyz/about/</link>
+      <pubDate>Sat, 10 Dec 2016 16:04:53 -0500</pubDate>
+      <author>info@roylarsen.xyz (Roy Larsen)</author>
+      <guid>http://www.roylarsen.xyz/about/</guid>
+      <description>
+
+&lt;p&gt;Hey.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m not suepr great with wriitng about myself, it aways feels weird.&lt;/p&gt;
+
+&lt;p&gt;So, who am I?&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;basics&#34;&gt;basics.&lt;/h2&gt;
+
+&lt;p&gt;As of my writing of this, I&amp;rsquo;m  30 years old and living in the Greater Boston Area.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;professional&#34;&gt;professional.&lt;/h2&gt;
+
+&lt;p&gt;I&amp;rsquo;m currently a Associate Infrastructure Engineer with &lt;a href=&#34;http://www.hachettebookgroup.com/&#34;&gt;Hachette Book Group&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;My main focus there is our server infrastructure, but I also dabble a little bit with our storage.&lt;/p&gt;
+
+&lt;p&gt;These days I&amp;rsquo;m most interested in the things happening in the DevOps space.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&#34;personal&#34;&gt;personal.&lt;/h2&gt;
+
+&lt;p&gt;Outside of work, I&amp;rsquo;m an avid musician and tabletop gamer.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
