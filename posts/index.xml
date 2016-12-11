@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts-rsses on roybot</title>
+    <title>Posts-rsses on roylarsen.xyz</title>
     <link>http://www.roylarsen.xyz/posts/index.xml</link>
-    <description>Recent content in Posts-rsses on roybot</description>
+    <description>Recent content in Posts-rsses on roylarsen.xyz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>info@roylarsen.xyz (Roy Larsen)</managingEditor>
