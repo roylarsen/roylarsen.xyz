@@ -34,7 +34,7 @@ I have one week left of work this year, then HBG is off for Christmas week.&lt;/
 
 &lt;p&gt;&lt;del&gt;## hypervisor.&lt;/del&gt;&lt;/p&gt;
 
-&lt;h6 id=&#34;proxmox-is-now-a-thing-in-my-env&#34;&gt;(proxmox is now a thing in my env)&lt;/h6&gt;
+&lt;h6 id=&#34;proxmox-and-plex-are-now-things-in-my-env&#34;&gt;(proxmox and plex are now things in my env)&lt;/h6&gt;
 
 &lt;p&gt;I want to rebuild my lab Hypervisor. &lt;a href=&#34;http://xenserver.org/&#34;&gt;XenServer&lt;/a&gt; is nice and all, but the community support and tooling just isn&amp;rsquo;t there.&lt;/p&gt;
 
@@ -46,11 +46,13 @@ I have one week left of work this year, then HBG is off for Christmas week.&lt;/
 
 &lt;hr /&gt;
 
-&lt;h2 id=&#34;saltstack&#34;&gt;saltstack.&lt;/h2&gt;
+&lt;p&gt;&lt;del&gt;## saltstack.&lt;/del&gt;&lt;/p&gt;
+
+&lt;h6 id=&#34;i-now-have-a-salt-master-in-my-env&#34;&gt;(I now have a salt master in my env)&lt;/h6&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://saltstack.com/&#34;&gt;Saltstack&lt;/a&gt; is the big reason I&amp;rsquo;m wanting to rebuild my hypervisor.&lt;/p&gt;
 
-&lt;p&gt;Xen is nice, but the client is Windows-only and I want to get into using mmore &lt;a href=&#34;https://docs.saltstack.com/en/latest/topics/cloud/index.html&#34;&gt;salt-cloud&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Xen is nice, but the client is Windows-only and I want to get into using more &lt;a href=&#34;https://docs.saltstack.com/en/latest/topics/cloud/index.html&#34;&gt;salt-cloud&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Once my salt-master is in place, my goal is to replicate(-ish) what we&amp;rsquo;re doing at HBG so I have a place to play at home.&lt;/p&gt;
 
