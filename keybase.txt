@@ -1,0 +1,54 @@
+==================================================================
+https://keybase.io/nuts0x21
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://www.roylarsen.xyz
+    * I am nuts0x21 (https://keybase.io/nuts0x21) on keybase.
+      * I have a public key ASC6HlL_L-gjHFbwMRBPxfVPmayR1Ho0uyIkTC86ujEN0Qo
+
+      To do so, I am signing this object:
+
+      {
+            "body": {
+                      "key": {
+                                    "eldest_kid": "012047330d31c99ea963ed9563b95f6b5b36fe843f6e256f5a9bb8ff74b96307150e0a",
+                                                "host": "keybase.io",
+                                                            "kid": "0120ba1e52ff2fe8231c56f031104fc5f54f99ac91d47a34bb22244c2f3aba310dd10a",
+                                                                        "uid": "f5a819c9bedaa78fdcb6e44b462c8819",
+                                                                                    "username": "nuts0x21"
+                                                                                            },
+                                                                                                    "service": {
+                                                                                                                  "hostname": "www.roylarsen.xyz",
+                                                                                                                              "protocol": "http:"
+                                                                                                                                      },
+                                                                                                                                              "type": "web_service_binding",
+                                                                                                                                                      "version": 1
+                                                                                                                                                          },
+                                                                                                                                                              "client": {
+                                                                                                                                                                        "name": "keybase.io go client",
+                                                                                                                                                                                "version": "1.0.18"
+                                                                                                                                                                                    },
+                                                                                                                                                                                        "ctime": 1483585131,
+                                                                                                                                                                                            "expire_in": 504576000,
+                                                                                                                                                                                                "merkle_root": {
+                                                                                                                                                                                                          "ctime": 1483585002,
+                                                                                                                                                                                                                  "hash": "068835c0265f385ae2e98af04f8e0d5ed6cc03bd04adcd09b1dfb633e9693473e38ef3f8c0ae122196f2542c61874d9063edf91a8ceb3bb01a9e54988f6d7341",
+                                                                                                                                                                                                                          "seqno": 786244
+                                                                                                                                                                                                                              },
+                                                                                                                                                                                                                                  "prev": "9339c07003029d9e2b3100a67521f3dc5526c25f2d160f2679a9572d4dfddcfc",
+                                                                                                                                                                                                                                      "seqno": 18,
+                                                                                                                                                                                                                                          "tag": "signature"
+      }
+
+      which yields the signature:
+
+      hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEguh5S/y/oIxxW8DEQT8X1T5mskdR6NLsiJEwvOroxDdEKp3BheWxvYWTFAvl7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwNDczMzBkMzFjOTllYTk2M2VkOTU2M2I5NWY2YjViMzZmZTg0M2Y2ZTI1NmY1YTliYjhmZjc0Yjk2MzA3MTUwZTBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwYmExZTUyZmYyZmU4MjMxYzU2ZjAzMTEwNGZjNWY1NGY5OWFjOTFkNDdhMzRiYjIyMjQ0YzJmM2FiYTMxMGRkMTBhIiwidWlkIjoiZjVhODE5YzliZWRhYTc4ZmRjYjZlNDRiNDYyYzg4MTkiLCJ1c2VybmFtZSI6Im51dHMweDIxIn0sInNlcnZpY2UiOnsiaG9zdG5hbWUiOiJ3d3cucm95bGFyc2VuLnh5eiIsInByb3RvY29sIjoiaHR0cDoifSwidHlwZSI6IndlYl9zZXJ2aWNlX2JpbmRpbmciLCJ2ZXJzaW9uIjoxfSwiY2xpZW50Ijp7Im5hbWUiOiJrZXliYXNlLmlvIGdvIGNsaWVudCIsInZlcnNpb24iOiIxLjAuMTgifSwiY3RpbWUiOjE0ODM1ODUxMzEsImV4cGlyZV9pbiI6NTA0NTc2MDAwLCJtZXJrbGVfcm9vdCI6eyJjdGltZSI6MTQ4MzU4NTAwMiwiaGFzaCI6IjA2ODgzNWMwMjY1ZjM4NWFlMmU5OGFmMDRmOGUwZDVlZDZjYzAzYmQwNGFkY2QwOWIxZGZiNjMzZTk2OTM0NzNlMzhlZjNmOGMwYWUxMjIxOTZmMjU0MmM2MTg3NGQ5MDYzZWRmOTFhOGNlYjNiYjAxYTllNTQ5ODhmNmQ3MzQxIiwic2Vxbm8iOjc4NjI0NH0sInByZXYiOiI5MzM5YzA3MDAzMDI5ZDllMmIzMTAwYTY3NTIxZjNkYzU1MjZjMjVmMmQxNjBmMjY3OWE5NTcyZDRkZmRkY2ZjIiwic2Vxbm8iOjE4LCJ0YWciOiJzaWduYXR1cmUifaNzaWfEQBYDQRsqS2cqyJdpDvEntAk3vWzovLnWgaeeGBfQ7KDuxhZTIRIbZehJHbVt69JVYCpQD2U4FukW8czFSk8H9ASoc2lnX3R5cGUgpGhhc2iCpHR5cGUIpXZhbHVlxCC0vYiVa6UYZa52xB+lIoPeeTGmaZxoyjWtLbOg2nFIRqN0YWfNAgKndmVyc2lvbgE=
+
+      And finally, I am proving ownership of this host by posting or
+      appending to this document.
+
+      View my publicly-auditable identity here: https://keybase.io/nuts0x21
+
+      ==================================================================
