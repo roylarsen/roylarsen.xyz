@@ -5,34 +5,40 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>christmas  &middot; roylarsen.xyz</title>
+  <title>proxmox cloud  &middot; roylarsen.xyz</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="description" content="Christmas week projects" />
+<meta name="description" content="description" />
 
-<meta name="keywords" content="projects, holiday, ">
+<meta name="keywords" content="saltstack, proxmox, virtualization, salt-cloud, python, ">
 
 
-<meta property="og:title" content="christmas  &middot; roylarsen.xyz ">
+<meta property="og:title" content="proxmox cloud  &middot; roylarsen.xyz ">
 <meta property="og:site_name" content="roylarsen.xyz"/>
-<meta property="og:url" content="http://www.roylarsen.xyz/posts/christmas/" />
+<meta property="og:url" content="http://www.roylarsen.xyz/content/posts/proxmox-cloud/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
-<meta property="og:description" content="Christmas week projects"/>
-<meta property="og:article:published_time" content="2016-12-17T11:17:15-05:00" />
-<meta property="og:article:modified_time" content="2016-12-17T11:17:15-05:00" />
+<meta property="og:description" content="description"/>
+<meta property="og:article:published_time" content="2017-01-16T20:41:45-05:00" />
+<meta property="og:article:modified_time" content="2017-01-16T20:41:45-05:00" />
 
   
     
-<meta property="og:article:tag" content="projects">
+<meta property="og:article:tag" content="saltstack">
     
-<meta property="og:article:tag" content="holiday">
+<meta property="og:article:tag" content="proxmox">
+    
+<meta property="og:article:tag" content="virtualization">
+    
+<meta property="og:article:tag" content="salt-cloud">
+    
+<meta property="og:article:tag" content="python">
     
   
 
@@ -40,9 +46,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="christmas" />
-<meta name="twitter:description" content="Christmas week projects" />
-<meta name="twitter:url" content="http://www.roylarsen.xyz/posts/christmas/" />
+<meta name="twitter:title" content="proxmox cloud" />
+<meta name="twitter:description" content="description" />
+<meta name="twitter:url" content="http://www.roylarsen.xyz/content/posts/proxmox-cloud/" />
 <meta name="twitter:domain" content="http://www.roylarsen.xyz/">
   
 
@@ -50,20 +56,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "christmas",
+    "headline": "proxmox cloud",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2016-12-17",
-    "description": "Christmas week projects",
-    "wordCount":  318 
+    "datePublished": "2017-01-16",
+    "description": "description",
+    "wordCount":  484 
   }
 </script>
 
 
 
-<link rel="canonical" href="http://www.roylarsen.xyz/posts/christmas/" />
+<link rel="canonical" href="http://www.roylarsen.xyz/content/posts/proxmox-cloud/" />
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
 <link rel="icon" href="/favicon.png">
 <meta name="generator" content="Hugo 0.17" />
@@ -146,36 +152,30 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <div class="text-center">
 
-    <h1>christmas
+    <h1>proxmox cloud
 </h1>
 
     <div class="metas">
 <small>
   <i class="fa fa-calendar"></i>
-  <time datetime="2016-12-17">17 Dec, 2016</time>
+  <time datetime="2017-01-16">16 Jan, 2017</time>
 </small>
 
 
   <small>
-    &middot; by roy
+    &middot; by roy.
   
-  &middot; Read in about 2 min
-  &middot; (318 words)
+  &middot; Read in about 3 min
+  &middot; (484 words)
 </small>
 
 
 <div class="margin-10">
   <i class="fa fa-tags"></i>
   
-  <a href="http://www.roylarsen.xyz/tags/holidays" class="label label-primary">holidays</a>
+  <a href="http://www.roylarsen.xyz/tags/one" class="label label-primary">one</a>
   
-  <a href="http://www.roylarsen.xyz/tags/projects" class="label label-primary">projects</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/virtualization" class="label label-primary">virtualization</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/saltstack" class="label label-primary">saltstack</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/python" class="label label-primary">python</a>
+  <a href="http://www.roylarsen.xyz/tags/two" class="label label-primary">two</a>
   
 
 
@@ -189,69 +189,103 @@
       <div class="content">
   
 
-<h1 id="christmas">christmas.</h1>
+<h1 id="proxmox-salt-cloud-kinda3">Proxmox + salt-cloud = &lt;kinda3</h1>
 
-<p>It&rsquo;s December 17th. In a month and a half, I&rsquo;ll have lived in the Boston area for a year.</p>
+<p>So, I&rsquo;ve been working on getting salt-cloud playing nicely with Proxmox. The biggest issue I&rsquo;ve seen so far is within salt-cloud&rsquo;s proxmox driver is more of a limitation within proxmox itself.</p>
 
-<p>What.
-<br />
-<br />
-<br />
-I have one week left of work this year, then HBG is off for Christmas week.</p>
+<p>Unless you statically assign you IP address, you&rsquo;re not going to see your IP address in the GUI or in the standard salt-cloud query to your hypervisor. The proxmox driver also allows your to query DNS for
+the IP address of your machine.</p>
 
-<p>I&rsquo;m currently working on coming up with my projects for the week so I don&rsquo;t get bored.</p>
+<p>Neither of those really work for me at home, since I like to have my VMs get an address from DHCP, then convert that to a static reservation when I&rsquo;m sure that VM will stick around.</p>
 
-<hr />
+<p>My prefered solution would be to pull the IP address straight from the hypervisor, which would make my life so much easier. That&rsquo;s doable when you&rsquo;re using the VMWare/ESXi driver when the agent is
+installed, I figure that there should be a way of handling that within Proxmox.</p>
 
-<p><del>## hypervisor.</del></p>
+<p>Enter the <a href="https://pve.proxmox.com/wiki/Qemu-guest-agent">QEMU Guest Agent</a></p>
 
-<h6 id="proxmox-and-plex-are-now-things-in-my-env">(proxmox and plex are now things in my env)</h6>
+<p>As it turns out, installing this is pretty easy. You install the service within your target VM, set the Agent option under hardware in the PVE web GUI to &lsquo;On&rsquo;, and then you reboot the VM.</p>
 
-<p>I want to rebuild my lab Hypervisor. <a href="http://xenserver.org/">XenServer</a> is nice and all, but the community support and tooling just isn&rsquo;t there.</p>
+<p>Boom. Easy.</p>
 
-<p>Right now, I&rsquo;m planning on burning everything to the ground and installing <a href="https://www.proxmox.com/en/proxmox-ve">Proxmox</a>.</p>
+<p>At this point you have better access to the guest through the API (either through the web or pvesh command on the host).</p>
 
-<p>Once that&rsquo;s a thing, I&rsquo;ll be rebuilding my <a href="https://www.plex.tv/">Plex</a> VM so I have something to watch.</p>
+<p>Now I&rsquo;m not going to do into details about how long it took me to dig through the PVE API, but I found what I want.</p>
 
-<p>I&rsquo;ll also price out some RAM and see about doubling my RAM.</p>
+<p><a href="http://pve.proxmox.com/pve-docs/api-viewer/index.html">PVE APIv2 Docs!</a></p>
 
-<hr />
+<p>Dig down to nodes/{node}/qemu/{vmid}/agent - That&rsquo;s the API commands for querying the guest agent directly. Not a lot is implemented, however, network-get-interfaces looks promising.</p>
 
-<p><del>## saltstack.</del></p>
+<p>(spoiler: that&rsquo;s what we want)</p>
 
-<h6 id="i-now-have-a-salt-master-in-my-env">(I now have a salt master in my env)</h6>
+<p>So playing around with pvesh on my VM host gets me to this command:</p>
 
-<p><a href="https://saltstack.com/">Saltstack</a> is the big reason I&rsquo;m wanting to rebuild my hypervisor.</p>
+<pre><code>pvesh create nodes/technodrome/qemu/101/agent -command network-get-interfaces
 
-<p>Xen is nice, but the client is Windows-only and I want to get into using more <a href="https://docs.saltstack.com/en/latest/topics/cloud/index.html">salt-cloud</a>.</p>
+(yes, my main node name is a reference to TMNT)
+</code></pre>
 
-<p>Once my salt-master is in place, my goal is to replicate(-ish) what we&rsquo;re doing at HBG so I have a place to play at home.</p>
+<p>That returns a JSON response with all the network information on the interfaces on your guest:</p>
 
-<hr />
+<pre><code>pvesh create nodes/technodrome/qemu/101/agent -command network-get-interfaces
+200 OK
+{
+  &quot;result&quot; : [
+    {
+      &quot;hardware-address&quot; : &quot;00:00:00:00:00:00&quot;,
+      &quot;ip-addresses&quot; : [
+        {
+          &quot;ip-address&quot; : &quot;127.0.0.1&quot;,
+          &quot;ip-address-type&quot; : &quot;ipv4&quot;,
+          &quot;prefix&quot; : 8
+        },
+        {
+          &quot;ip-address&quot; : &quot;::1&quot;,
+          &quot;ip-address-type&quot; : &quot;ipv6&quot;,
+          &quot;prefix&quot; : 128
+        }
+      ],
+      &quot;name&quot; : &quot;lo&quot;
+    },
+    {
+      &quot;hardware-address&quot; : &quot;&lt;MAC address&gt;&quot;,
+      &quot;ip-addresses&quot; : [
+        {
+          &quot;ip-address&quot; : &quot;&lt;ipv4 address&quot;,
+          &quot;ip-address-type&quot; : &quot;ipv4&quot;,
+          &quot;prefix&quot; : 24
+        },
+        {
+          &quot;ip-address&quot; : &quot;&lt;ipv6 address&gt;&quot;,
+          &quot;ip-address-type&quot; : &quot;ipv6&quot;,
+          &quot;prefix&quot; : 64
+        }
+      ],
+      &quot;name&quot; : &quot;eth0&quot;
+    }
+  ]
+}
 
-<h2 id="skynet-ng">skynet-ng</h2>
+sanitised so you can't see my internal numbering scheme
+</code></pre>
 
-<p>This is more of a for-fun thing I&rsquo;m not really planning on releasing.</p>
+<h3 id="oh-shit">OH SHIT.</h3>
 
-<p>This is a joke about some software HBG Infrastructure is trying to tear out. This will be mostly a overview dashboard of our systems.</p>
+<p>So, now the biggest obstacles I have are as follow:</p>
 
-<p>Will this get done over break? Probably not</p>
+<ul>
+<li>Getting what I found into: <a href="https://github.com/saltstack/salt/blob/develop/salt/cloud/clouds/proxmox.py">https://github.com/saltstack/salt/blob/develop/salt/cloud/clouds/proxmox.py</a>
 
-<hr />
+<ul>
+<li>Need to create a function <code>wait_for_ip_address()</code></li>
+<li>Need to add some options to the Proxmox profile to handle being able to use DHCP</li>
+</ul></li>
+<li>Support having multiple interfaces that aren&rsquo;t lo</li>
+<li>Get patch accepted into salt-cloud
 
-<h2 id="test-salt">test-salt</h2>
-
-<p>Why should chef have all the cool infrastructure testing tools?</p>
-
-<p>I&rsquo;ve started playing around with automating <a href="https://www.vagrantup.com/">Vagrant</a> and the Python <a href="https://github.com/philpep/testinfra">testinfra</a> module.</p>
-
-<p><a href="https://github.com/test-kitchen/test-kitchen">test-kitchen</a> is a great tool for Infrastructure as Code. However, it&rsquo;s a Ruby tool and requires a
-Ruby toolchain to get going. You know what doesn&rsquo;t use Ruby and the people working with it probably wont have a Ruby toolchain installed? People using
-Saltstack or Ansible.</p>
-
-<p>I&rsquo;ve done a little bit, but will it get done? Maybe.</p>
-
-<p><a href="https://github.com/roylarsen/test-salt">test-salt</a></p>
+<ul>
+<li>(Or I just keep it for myself)</li>
+</ul></li>
+</ul>
 
 </div>
 
@@ -263,18 +297,12 @@ Saltstack or Ansible.</p>
     <nav><ul class="pager">
     
         <li class="previous">
-          <a href="http://www.roylarsen.xyz/posts/first/" title="first">
+          <a href="http://www.roylarsen.xyz/posts/christmas/" title="christmas">
             <span aria-hidden="true">&larr;</span>Previous
           </a>
         </li>
     
 
-    
-      <li class="next">
-        <a href="http://www.roylarsen.xyz/content/posts/proxmox-cloud/" title="proxmox cloud">
-            Next <span aria-hidden="true">&rarr;</span>
-        </a>
-      </li>
     
     </ul> </nav>
   

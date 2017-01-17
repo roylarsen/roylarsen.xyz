@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts-rsses on roylarsen.xyz</title>
-    <link>http://www.roylarsen.xyz/posts/index.xml</link>
-    <description>Recent content in Posts-rsses on roylarsen.xyz</description>
+    <title>roylarsen.xyz</title>
+    <link>http://www.roylarsen.xyz/tags/one/index.xml</link>
+    <description>Recent content on roylarsen.xyz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>info@roylarsen.xyz (Roy Larsen)</managingEditor>
     <webMaster>info@roylarsen.xyz (Roy Larsen)</webMaster>
-    <lastBuildDate>Mon, 16 Jan 2017 20:41:45 -0500</lastBuildDate>
-    <atom:link href="http://www.roylarsen.xyz/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.roylarsen.xyz/tags/one/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>proxmox cloud</title>
@@ -116,92 +115,6 @@ sanitised so you can&#39;t see my internal numbering scheme
 &lt;li&gt;(Or I just keep it for myself)&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>christmas</title>
-      <link>http://www.roylarsen.xyz/posts/christmas/</link>
-      <pubDate>Sat, 17 Dec 2016 11:17:15 -0500</pubDate>
-      <author>info@roylarsen.xyz (Roy Larsen)</author>
-      <guid>http://www.roylarsen.xyz/posts/christmas/</guid>
-      <description>
-
-&lt;h1 id=&#34;christmas&#34;&gt;christmas.&lt;/h1&gt;
-
-&lt;p&gt;It&amp;rsquo;s December 17th. In a month and a half, I&amp;rsquo;ll have lived in the Boston area for a year.&lt;/p&gt;
-
-&lt;p&gt;What.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-I have one week left of work this year, then HBG is off for Christmas week.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m currently working on coming up with my projects for the week so I don&amp;rsquo;t get bored.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;del&gt;## hypervisor.&lt;/del&gt;&lt;/p&gt;
-
-&lt;h6 id=&#34;proxmox-and-plex-are-now-things-in-my-env&#34;&gt;(proxmox and plex are now things in my env)&lt;/h6&gt;
-
-&lt;p&gt;I want to rebuild my lab Hypervisor. &lt;a href=&#34;http://xenserver.org/&#34;&gt;XenServer&lt;/a&gt; is nice and all, but the community support and tooling just isn&amp;rsquo;t there.&lt;/p&gt;
-
-&lt;p&gt;Right now, I&amp;rsquo;m planning on burning everything to the ground and installing &lt;a href=&#34;https://www.proxmox.com/en/proxmox-ve&#34;&gt;Proxmox&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Once that&amp;rsquo;s a thing, I&amp;rsquo;ll be rebuilding my &lt;a href=&#34;https://www.plex.tv/&#34;&gt;Plex&lt;/a&gt; VM so I have something to watch.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ll also price out some RAM and see about doubling my RAM.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;del&gt;## saltstack.&lt;/del&gt;&lt;/p&gt;
-
-&lt;h6 id=&#34;i-now-have-a-salt-master-in-my-env&#34;&gt;(I now have a salt master in my env)&lt;/h6&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://saltstack.com/&#34;&gt;Saltstack&lt;/a&gt; is the big reason I&amp;rsquo;m wanting to rebuild my hypervisor.&lt;/p&gt;
-
-&lt;p&gt;Xen is nice, but the client is Windows-only and I want to get into using more &lt;a href=&#34;https://docs.saltstack.com/en/latest/topics/cloud/index.html&#34;&gt;salt-cloud&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Once my salt-master is in place, my goal is to replicate(-ish) what we&amp;rsquo;re doing at HBG so I have a place to play at home.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&#34;skynet-ng&#34;&gt;skynet-ng&lt;/h2&gt;
-
-&lt;p&gt;This is more of a for-fun thing I&amp;rsquo;m not really planning on releasing.&lt;/p&gt;
-
-&lt;p&gt;This is a joke about some software HBG Infrastructure is trying to tear out. This will be mostly a overview dashboard of our systems.&lt;/p&gt;
-
-&lt;p&gt;Will this get done over break? Probably not&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&#34;test-salt&#34;&gt;test-salt&lt;/h2&gt;
-
-&lt;p&gt;Why should chef have all the cool infrastructure testing tools?&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve started playing around with automating &lt;a href=&#34;https://www.vagrantup.com/&#34;&gt;Vagrant&lt;/a&gt; and the Python &lt;a href=&#34;https://github.com/philpep/testinfra&#34;&gt;testinfra&lt;/a&gt; module.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/test-kitchen/test-kitchen&#34;&gt;test-kitchen&lt;/a&gt; is a great tool for Infrastructure as Code. However, it&amp;rsquo;s a Ruby tool and requires a
-Ruby toolchain to get going. You know what doesn&amp;rsquo;t use Ruby and the people working with it probably wont have a Ruby toolchain installed? People using
-Saltstack or Ansible.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve done a little bit, but will it get done? Maybe.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/roylarsen/test-salt&#34;&gt;test-salt&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>first</title>
-      <link>http://www.roylarsen.xyz/posts/first/</link>
-      <pubDate>Sat, 10 Dec 2016 17:49:12 -0500</pubDate>
-      <author>info@roylarsen.xyz (Roy Larsen)</author>
-      <guid>http://www.roylarsen.xyz/posts/first/</guid>
-      <description>&lt;p&gt;I&amp;rsquo;m going to make another attempt at starting a personal site/blog.&lt;/p&gt;
-
-&lt;p&gt;We&amp;rsquo;ll see how that goes.&lt;/p&gt;
 </description>
     </item>
     
