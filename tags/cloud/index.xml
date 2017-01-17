@@ -131,6 +131,7 @@ sanitised so you can&#39;t see my internal numbering scheme
 &lt;li&gt;possibly use the MAC address as my unique identifier?&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;Use VMID to call /qemu/{VMID}/status/current&lt;/li&gt;
+&lt;li&gt;Potentially use a shell script instead of a Python script to lower the amount of dependencies used&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
