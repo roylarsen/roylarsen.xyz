@@ -116,6 +116,148 @@ sanitised so you can&#39;t see my internal numbering scheme
 &lt;li&gt;(Or I just keep it for myself)&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h3 id=&#34;update-nerds&#34;&gt;UPDATE, NERDS&lt;/h3&gt;
+
+&lt;p&gt;So, as I&amp;rsquo;ve been working on the code for my patch to the proxmox provider, I was running some other solutions to my problem in my head.&lt;/p&gt;
+
+&lt;p&gt;Enter: &lt;a href=&#34;https://cloudinit.readthedocs.io/en/latest/&#34;&gt;cloud-init&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;What I&amp;rsquo;ve been realizing that I can do is use cloud-init to run a python scipt to set the hostname of the box.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the VMID of the VM
+
+&lt;ul&gt;
+&lt;li&gt;possibly use the MAC address as my unique identifier?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Use VMID to call /qemu/{VMID}/status/current&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>proxmox cloud</title>
+      <link>http://www.roylarsen.xyz/posts/proxmox-cloud/</link>
+      <pubDate>Mon, 16 Jan 2017 20:41:45 -0500</pubDate>
+      <author>info@roylarsen.xyz (Roy Larsen)</author>
+      <guid>http://www.roylarsen.xyz/posts/proxmox-cloud/</guid>
+      <description>
+
+&lt;h1 id=&#34;proxmox-salt-cloud-kinda3&#34;&gt;Proxmox + salt-cloud = &amp;lt;kinda3&lt;/h1&gt;
+
+&lt;p&gt;So, I&amp;rsquo;ve been working on getting salt-cloud playing nicely with Proxmox. The biggest issue I&amp;rsquo;ve seen so far is within salt-cloud&amp;rsquo;s proxmox driver is more of a limitation within proxmox itself.&lt;/p&gt;
+
+&lt;p&gt;Unless you statically assign you IP address, you&amp;rsquo;re not going to see your IP address in the GUI or in the standard salt-cloud query to your hypervisor. The proxmox driver also allows your to query DNS for
+the IP address of your machine.&lt;/p&gt;
+
+&lt;p&gt;Neither of those really work for me at home, since I like to have my VMs get an address from DHCP, then convert that to a static reservation when I&amp;rsquo;m sure that VM will stick around.&lt;/p&gt;
+
+&lt;p&gt;My prefered solution would be to pull the IP address straight from the hypervisor, which would make my life so much easier. That&amp;rsquo;s doable when you&amp;rsquo;re using the VMWare/ESXi driver when the agent is
+installed, I figure that there should be a way of handling that within Proxmox.&lt;/p&gt;
+
+&lt;p&gt;Enter the &lt;a href=&#34;https://pve.proxmox.com/wiki/Qemu-guest-agent&#34;&gt;QEMU Guest Agent&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;As it turns out, installing this is pretty easy. You install the service within your target VM, set the Agent option under hardware in the PVE web GUI to &amp;lsquo;On&amp;rsquo;, and then you reboot the VM.&lt;/p&gt;
+
+&lt;p&gt;Boom. Easy.&lt;/p&gt;
+
+&lt;p&gt;At this point you have better access to the guest through the API (either through the web or pvesh command on the host).&lt;/p&gt;
+
+&lt;p&gt;Now I&amp;rsquo;m not going to do into details about how long it took me to dig through the PVE API, but I found what I want.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://pve.proxmox.com/pve-docs/api-viewer/index.html&#34;&gt;PVE APIv2 Docs!&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Dig down to nodes/{node}/qemu/{vmid}/agent - That&amp;rsquo;s the API commands for querying the guest agent directly. Not a lot is implemented, however, network-get-interfaces looks promising.&lt;/p&gt;
+
+&lt;p&gt;(spoiler: that&amp;rsquo;s what we want)&lt;/p&gt;
+
+&lt;p&gt;So playing around with pvesh on my VM host gets me to this command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pvesh create nodes/technodrome/qemu/101/agent -command network-get-interfaces
+
+(yes, my main node name is a reference to TMNT)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That returns a JSON response with all the network information on the interfaces on your guest:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pvesh create nodes/technodrome/qemu/101/agent -command network-get-interfaces
+200 OK
+{
+  &amp;quot;result&amp;quot; : [
+    {
+      &amp;quot;hardware-address&amp;quot; : &amp;quot;00:00:00:00:00:00&amp;quot;,
+      &amp;quot;ip-addresses&amp;quot; : [
+        {
+          &amp;quot;ip-address&amp;quot; : &amp;quot;127.0.0.1&amp;quot;,
+          &amp;quot;ip-address-type&amp;quot; : &amp;quot;ipv4&amp;quot;,
+          &amp;quot;prefix&amp;quot; : 8
+        },
+        {
+          &amp;quot;ip-address&amp;quot; : &amp;quot;::1&amp;quot;,
+          &amp;quot;ip-address-type&amp;quot; : &amp;quot;ipv6&amp;quot;,
+          &amp;quot;prefix&amp;quot; : 128
+        }
+      ],
+      &amp;quot;name&amp;quot; : &amp;quot;lo&amp;quot;
+    },
+    {
+      &amp;quot;hardware-address&amp;quot; : &amp;quot;&amp;lt;MAC address&amp;gt;&amp;quot;,
+      &amp;quot;ip-addresses&amp;quot; : [
+        {
+          &amp;quot;ip-address&amp;quot; : &amp;quot;&amp;lt;ipv4 address&amp;quot;,
+          &amp;quot;ip-address-type&amp;quot; : &amp;quot;ipv4&amp;quot;,
+          &amp;quot;prefix&amp;quot; : 24
+        },
+        {
+          &amp;quot;ip-address&amp;quot; : &amp;quot;&amp;lt;ipv6 address&amp;gt;&amp;quot;,
+          &amp;quot;ip-address-type&amp;quot; : &amp;quot;ipv6&amp;quot;,
+          &amp;quot;prefix&amp;quot; : 64
+        }
+      ],
+      &amp;quot;name&amp;quot; : &amp;quot;eth0&amp;quot;
+    }
+  ]
+}
+
+sanitised so you can&#39;t see my internal numbering scheme
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;oh-shit&#34;&gt;OH SHIT.&lt;/h3&gt;
+
+&lt;p&gt;So, now the biggest obstacles I have are as follow:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Getting what I found into: &lt;a href=&#34;https://github.com/saltstack/salt/blob/develop/salt/cloud/clouds/proxmox.py&#34;&gt;https://github.com/saltstack/salt/blob/develop/salt/cloud/clouds/proxmox.py&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Need to create a function &lt;code&gt;wait_for_ip_address()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Need to add some options to the Proxmox profile to handle being able to use DHCP&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Support having multiple interfaces that aren&amp;rsquo;t lo&lt;/li&gt;
+&lt;li&gt;Get patch accepted into salt-cloud
+
+&lt;ul&gt;
+&lt;li&gt;(Or I just keep it for myself)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;update-nerds&#34;&gt;UPDATE, NERDS&lt;/h3&gt;
+
+&lt;p&gt;So, as I&amp;rsquo;ve been working on the code for my patch to the proxmox provider, I was running some other solutions to my problem in my head.&lt;/p&gt;
+
+&lt;p&gt;Enter: &lt;a href=&#34;https://cloudinit.readthedocs.io/en/latest/&#34;&gt;cloud-init&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;What I&amp;rsquo;ve been realizing that I can do is use cloud-init to run a python scipt to set the hostname of the box.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Get the VMID of the VM
+
+&lt;ul&gt;
+&lt;li&gt;possibly use the MAC address as my unique identifier?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Use VMID to call /qemu/{VMID}/status/current&lt;/li&gt;
+&lt;/ul&gt;
 </description>
     </item>
     
