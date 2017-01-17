@@ -63,7 +63,7 @@
     },
     "datePublished": "2017-01-16",
     "description": "salt-cloud and proxmox",
-    "wordCount":  575 
+    "wordCount":  677 
   }
 </script>
 
@@ -165,8 +165,8 @@
   <small>
     &middot; by roy.
   
-  &middot; Read in about 3 min
-  &middot; (575 words)
+  &middot; Read in about 4 min
+  &middot; (677 words)
 </small>
 
 
@@ -310,6 +310,16 @@ sanitised so you can't see my internal numbering scheme
 <li>Use VMID to call /qemu/{VMID}/status/current</li>
 <li>Potentially use a shell script instead of a Python script to lower the amount of dependencies used</li>
 </ul>
+
+<h3 id="update-2-nerds">Update 2, nerds</h3>
+
+<p>I think at this point I am going to eventually end up with the cloud-init solution. I think it&rsquo;s the easiest to support and it&rsquo;s <a href="http://cloudinit.readthedocs.io/en/latest/topics/datasources/digitalocean.html">really</a> <a href="http://cloudinit.readthedocs.io/en/latest/topics/datasources/ec2.html">interesting</a> <a href="http://cloudinit.readthedocs.io/en/latest/topics/datasources/configdrive.html">what</a> <a href="http://cloudinit.readthedocs.io/en/latest/topics/datasources/azure.html">other</a>
+clouds do.</p>
+
+<p>I&rsquo;m going to write my patch for the Proxmox provider, but probably just keep that fork as an example in my github account as something to show off. It&rsquo;ll be a fun exercise, but I don&rsquo;t see it as supportable
+beyond a stopgap until I get cloud-init working.</p>
+
+<p>Plus, I&rsquo;m pretty sure cloud-init will be a better solution for when I want to experiment with building LXC containers.</p>
 
 </div>
 

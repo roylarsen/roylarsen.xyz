@@ -133,6 +133,16 @@ sanitised so you can&#39;t see my internal numbering scheme
 &lt;li&gt;Use VMID to call /qemu/{VMID}/status/current&lt;/li&gt;
 &lt;li&gt;Potentially use a shell script instead of a Python script to lower the amount of dependencies used&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h3 id=&#34;update-2-nerds&#34;&gt;Update 2, nerds&lt;/h3&gt;
+
+&lt;p&gt;I think at this point I am going to eventually end up with the cloud-init solution. I think it&amp;rsquo;s the easiest to support and it&amp;rsquo;s &lt;a href=&#34;http://cloudinit.readthedocs.io/en/latest/topics/datasources/digitalocean.html&#34;&gt;really&lt;/a&gt; &lt;a href=&#34;http://cloudinit.readthedocs.io/en/latest/topics/datasources/ec2.html&#34;&gt;interesting&lt;/a&gt; &lt;a href=&#34;http://cloudinit.readthedocs.io/en/latest/topics/datasources/configdrive.html&#34;&gt;what&lt;/a&gt; &lt;a href=&#34;http://cloudinit.readthedocs.io/en/latest/topics/datasources/azure.html&#34;&gt;other&lt;/a&gt;
+clouds do.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m going to write my patch for the Proxmox provider, but probably just keep that fork as an example in my github account as something to show off. It&amp;rsquo;ll be a fun exercise, but I don&amp;rsquo;t see it as supportable
+beyond a stopgap until I get cloud-init working.&lt;/p&gt;
+
+&lt;p&gt;Plus, I&amp;rsquo;m pretty sure cloud-init will be a better solution for when I want to experiment with building LXC containers.&lt;/p&gt;
 </description>
     </item>
     
