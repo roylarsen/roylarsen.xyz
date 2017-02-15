@@ -5,31 +5,71 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>roylarsen.xyz </title>
+  <title>certificates  &middot; roylarsen.xyz</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="description" content="" />
+<meta name="description" content="certificate authority tool" />
 
-<meta name="keywords" content="">
+<meta name="keywords" content="https, ruby, infrastructure, utilities, openssl, ">
 
 
-<meta property="og:title" content="roylarsen.xyz ">
+<meta property="og:title" content="certificates  &middot; roylarsen.xyz ">
 <meta property="og:site_name" content="roylarsen.xyz"/>
-<meta property="og:url" content="http://www.roylarsen.xyz/" />
+<meta property="og:url" content="http://www.roylarsen.xyz/posts/certificates/" />
 <meta property="og:locale" content="en-us">
 
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
+<meta property="og:description" content="certificate authority tool"/>
+<meta property="og:article:published_time" content="2017-02-14T23:07:05-05:00" />
+<meta property="og:article:modified_time" content="2017-02-14T23:07:05-05:00" />
+
+  
+    
+<meta property="og:article:tag" content="https">
+    
+<meta property="og:article:tag" content="ruby">
+    
+<meta property="og:article:tag" content="infrastructure">
+    
+<meta property="og:article:tag" content="utilities">
+    
+<meta property="og:article:tag" content="openssl">
+    
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@" />
+<meta name="twitter:creator" content="@" />
+<meta name="twitter:title" content="certificates" />
+<meta name="twitter:description" content="certificate authority tool" />
+<meta name="twitter:url" content="http://www.roylarsen.xyz/posts/certificates/" />
+<meta name="twitter:domain" content="http://www.roylarsen.xyz/">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "certificates",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2017-02-14",
+    "description": "certificate authority tool",
+    "wordCount":  341 
+  }
+</script>
 
 
 
-<link href="http://www.roylarsen.xyz/index.xml" rel="alternate" type="application/rss+xml" title="roylarsen.xyz" />
-
-<link rel="canonical" href="http://www.roylarsen.xyz/" />
+<link rel="canonical" href="http://www.roylarsen.xyz/posts/certificates/" />
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
 <link rel="icon" href="/favicon.png">
 <meta name="generator" content="Hugo 0.17" />
@@ -106,25 +146,31 @@
   </header>
 
 
-  <div class="container">
-    
-    <div class="row">
-      <div class="col-sm-12">
-        
-        
-          <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div>
-  <h2><a href="http://www.roylarsen.xyz/posts/certificates/">certificates</a>
-</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="text-center">
 
-  <div class="margin-10">
-    <small>
+    <h1>certificates
+</h1>
+
+    <div class="metas">
+<small>
   <i class="fa fa-calendar"></i>
   <time datetime="2017-02-14">14 Feb, 2017</time>
 </small>
 
-    
+
+  <small>
+    &middot; by roy.
+  
+  &middot; Read in about 2 min
+  &middot; (341 words)
+</small>
+
+
+<div class="margin-10">
   <i class="fa fa-tags"></i>
   
   <a href="http://www.roylarsen.xyz/tags/https" class="label label-primary">https</a>
@@ -137,167 +183,80 @@
   
 
 
-  </div>
 </div>
-
-    <p>
-  
-  
-    certificate authority tool
-  
-
-
-</p>
-
-
-    <p class="lead"><a href="http://www.roylarsen.xyz/posts/certificates/" class="btn btn-default">Read more &rarr;</a></p>
-
+<br>
+</div>
 
   </div>
 </div>
 
-        
-          <div class="row">
+      <div class="content">
+  
+
+<h1 id="running-a-certificate-authority-is-kinda-annoying">Running a certificate authority is kinda annoying</h1>
+
+<p>I recently had a developer come to me with a question about an error they were getting with the <a href="http://docs.python-requests.org/en/master/">Requests</a> Python Module.</p>
+
+<p>The default for this module is to validate SSL certs. Makes sense, right? Validating SSL should be a thing you should do with HTTPS (you ARE using HTTPS for things, right?)</p>
+
+<p>The issue came up where in development, the dev set validate to false so they could test hitting an API endpoint. Then they started moving from dev to test, removed that flag (or turned it to True),
+and then started having issues and didn&rsquo;t understand why.</p>
+
+<p>The wheels started turning and I started thinking of a service I wanted to build.</p>
+
+<h3 id="enter-the-fact-that-i-ve-been-working-on-learning-ruby-and-this-is-a-good-excuse-to-write-something-serious-ish-in-ruby">Enter the fact that I&rsquo;ve been working on learning Ruby and this is a good excuse to write something &lsquo;serious-ish&rsquo; in Ruby</h3>
+
+<p>While Python is &lt;3 for me, I&rsquo;ve been learning Ruby since it&rsquo;s also very popular within the DevOps space.</p>
+
+<p>I have one project that I&rsquo;m playing around with, this one will be slightly easier to write. This will be mostly a way for me to work on putting something together that&rsquo;s distributable.</p>
+
+<h3 id="nuts-and-bolts-as-i-think-of-it-now">Nuts and bolts as I think of it now</h3>
+
+<p>My first release I want to provide just three API endpoints (a one-time POST, and two GETs), and a CLI utility for setting up a CA.</p>
+
+<p>Requesting a Cert will work on a principle of &lsquo;unique enough&rsquo; identifiers. Since this is designed strictly for internal/enterprise/microservice use, you should be able to handle
+identity management by hand (this will be something to add on to in the future, perhaps).</p>
+
+<h3 id="tl-dr-because-roy-isn-t-a-good-writer">tl;dr because Roy isn&rsquo;t a good writer</h3>
+
+<p>My scheme of schemes is to allow DevOps/Infrastructure management to be able to do a series of scripts (or cURL ffs) to generate a &lsquo;unique enough&rsquo; identifier and then call these URLs from your
+preferred configuration management tool (or even something like cloud-init) and request a certificate for the system automagically. It&rsquo;ll allow organizations to easily enough distribute the
+ca-bundle, also automagically.</p>
+
+</div>
+
+
+      <footer>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div>
-  <h2><a href="http://www.roylarsen.xyz/posts/proxmox-cloud/">proxmox cloud</a>
-</h2>
-
-  <div class="margin-10">
-    <small>
-  <i class="fa fa-calendar"></i>
-  <time datetime="2017-01-16">16 Jan, 2017</time>
-</small>
-
-    
-  <i class="fa fa-tags"></i>
-  
-  <a href="http://www.roylarsen.xyz/tags/virtualization" class="label label-primary">virtualization</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/cloud" class="label label-primary">cloud</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/saltstack" class="label label-primary">saltstack</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/python" class="label label-primary">python</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/salt-cloud" class="label label-primary">salt-cloud</a>
-  
-
-
-  </div>
-</div>
-
-    <p>
-  
-  
-    salt-cloud and proxmox
-  
-
-
-</p>
-
-
-    <p class="lead"><a href="http://www.roylarsen.xyz/posts/proxmox-cloud/" class="btn btn-default">Read more &rarr;</a></p>
-
-
-  </div>
-</div>
-
-        
-          <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div>
-  <h2><a href="http://www.roylarsen.xyz/posts/christmas/">christmas</a>
-</h2>
-
-  <div class="margin-10">
-    <small>
-  <i class="fa fa-calendar"></i>
-  <time datetime="2016-12-17">17 Dec, 2016</time>
-</small>
-
-    
-  <i class="fa fa-tags"></i>
-  
-  <a href="http://www.roylarsen.xyz/tags/holidays" class="label label-primary">holidays</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/projects" class="label label-primary">projects</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/virtualization" class="label label-primary">virtualization</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/saltstack" class="label label-primary">saltstack</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/python" class="label label-primary">python</a>
-  
-
-
-  </div>
-</div>
-
-    <p>
-  
-  
-    Christmas week projects
-  
-
-
-</p>
-
-
-    <p class="lead"><a href="http://www.roylarsen.xyz/posts/christmas/" class="btn btn-default">Read more &rarr;</a></p>
-
-
-  </div>
-</div>
-
-        
-          <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div>
-  <h2><a href="http://www.roylarsen.xyz/posts/first/">first</a>
-</h2>
-
-  <div class="margin-10">
-    <small>
-  <i class="fa fa-calendar"></i>
-  <time datetime="2016-12-10">10 Dec, 2016</time>
-</small>
-
-    
-  <i class="fa fa-tags"></i>
-  
-  <a href="http://www.roylarsen.xyz/tags/first" class="label label-primary">First</a>
-  
-
-
-  </div>
-</div>
-
-    <p>
-  
-  
-    what&rsquo;re we doing here?
-  
-
-
-</p>
-
-
-    <p class="lead"><a href="http://www.roylarsen.xyz/posts/first/" class="btn btn-default">Read more &rarr;</a></p>
-
-
-  </div>
-</div>
-
-        
-        
-
-      </div>
       
+  
+    <nav><ul class="pager">
+    
+        <li class="previous">
+          <a href="http://www.roylarsen.xyz/posts/proxmox-cloud/" title="proxmox cloud">
+            <span aria-hidden="true">&larr;</span>Previous
+          </a>
+        </li>
+    
+
+    
+    </ul> </nav>
+  
+
+
+</div>
+
+  <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+  
+
+</div>
+
+</footer>
+
     </div>
-
+    
   </div>
-
+</div>
       
 <footer class="footer hidden-print">
   <div class="container">
