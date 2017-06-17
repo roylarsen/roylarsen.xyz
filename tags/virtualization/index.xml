@@ -13,7 +13,7 @@
     <item>
       <title>proxmox cloud</title>
       <link>http://www.roylarsen.xyz/posts/proxmox-cloud/</link>
-      <pubDate>Mon, 16 Jan 2017 20:41:45 -0500</pubDate>
+      <pubDate>Sat, 17 Jun 2017 20:41:45 -0500</pubDate>
       <author>info@roylarsen.xyz (Roy Larsen)</author>
       <guid>http://www.roylarsen.xyz/posts/proxmox-cloud/</guid>
       <description>
@@ -143,6 +143,14 @@ clouds do.&lt;/p&gt;
 beyond a stopgap until I get cloud-init working.&lt;/p&gt;
 
 &lt;p&gt;Plus, I&amp;rsquo;m pretty sure cloud-init will be a better solution for when I want to experiment with building LXC containers.&lt;/p&gt;
+
+&lt;h3 id=&#34;update-3-nerds&#34;&gt;Update 3, nerds&lt;/h3&gt;
+
+&lt;p&gt;So, I&amp;rsquo;ve been neglecting my blog because I&amp;rsquo;m a dummy.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve actually written my patch for the proxmox provider and have been using it in my homelab for a while at this point.&lt;/p&gt;
+
+&lt;p&gt;It was pretty cool, I got to learn how to do list comprehensions and now I can easily spin up new VMs in my lab!&lt;/p&gt;
 </description>
     </item>
     

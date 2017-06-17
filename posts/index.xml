@@ -8,53 +8,13 @@
     <language>en-us</language>
     <managingEditor>info@roylarsen.xyz (Roy Larsen)</managingEditor>
     <webMaster>info@roylarsen.xyz (Roy Larsen)</webMaster>
-    <lastBuildDate>Tue, 14 Feb 2017 23:07:05 -0500</lastBuildDate>
+    <lastBuildDate>Sat, 17 Jun 2017 20:41:45 -0500</lastBuildDate>
     <atom:link href="http://www.roylarsen.xyz/posts/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>certificates</title>
-      <link>http://www.roylarsen.xyz/posts/certificates/</link>
-      <pubDate>Tue, 14 Feb 2017 23:07:05 -0500</pubDate>
-      <author>info@roylarsen.xyz (Roy Larsen)</author>
-      <guid>http://www.roylarsen.xyz/posts/certificates/</guid>
-      <description>
-
-&lt;h1 id=&#34;running-a-certificate-authority-is-kinda-annoying&#34;&gt;Running a certificate authority is kinda annoying&lt;/h1&gt;
-
-&lt;p&gt;I recently had a developer come to me with a question about an error they were getting with the &lt;a href=&#34;http://docs.python-requests.org/en/master/&#34;&gt;Requests&lt;/a&gt; Python Module.&lt;/p&gt;
-
-&lt;p&gt;The default for this module is to validate SSL certs. Makes sense, right? Validating SSL should be a thing you should do with HTTPS (you ARE using HTTPS for things, right?)&lt;/p&gt;
-
-&lt;p&gt;The issue came up where in development, the dev set validate to false so they could test hitting an API endpoint. Then they started moving from dev to test, removed that flag (or turned it to True),
-and then started having issues and didn&amp;rsquo;t understand why.&lt;/p&gt;
-
-&lt;p&gt;The wheels started turning and I started thinking of a service I wanted to build.&lt;/p&gt;
-
-&lt;h3 id=&#34;enter-the-fact-that-i-ve-been-working-on-learning-ruby-and-this-is-a-good-excuse-to-write-something-serious-ish-in-ruby&#34;&gt;Enter the fact that I&amp;rsquo;ve been working on learning Ruby and this is a good excuse to write something &amp;lsquo;serious-ish&amp;rsquo; in Ruby&lt;/h3&gt;
-
-&lt;p&gt;While Python is &amp;lt;3 for me, I&amp;rsquo;ve been learning Ruby since it&amp;rsquo;s also very popular within the DevOps space.&lt;/p&gt;
-
-&lt;p&gt;I have one project that I&amp;rsquo;m playing around with, this one will be slightly easier to write. This will be mostly a way for me to work on putting something together that&amp;rsquo;s distributable.&lt;/p&gt;
-
-&lt;h3 id=&#34;nuts-and-bolts-as-i-think-of-it-now&#34;&gt;Nuts and bolts as I think of it now&lt;/h3&gt;
-
-&lt;p&gt;My first release I want to provide just three API endpoints (a one-time POST, and two GETs), and a CLI utility for setting up a CA.&lt;/p&gt;
-
-&lt;p&gt;Requesting a Cert will work on a principle of &amp;lsquo;unique enough&amp;rsquo; identifiers. Since this is designed strictly for internal/enterprise/microservice use, you should be able to handle
-identity management by hand (this will be something to add on to in the future, perhaps).&lt;/p&gt;
-
-&lt;h3 id=&#34;tl-dr-because-roy-isn-t-a-good-writer&#34;&gt;tl;dr because Roy isn&amp;rsquo;t a good writer&lt;/h3&gt;
-
-&lt;p&gt;My scheme of schemes is to allow DevOps/Infrastructure management to be able to do a series of scripts (or cURL ffs) to generate a &amp;lsquo;unique enough&amp;rsquo; identifier and then call these URLs from your
-preferred configuration management tool (or even something like cloud-init) and request a certificate for the system automagically. It&amp;rsquo;ll allow organizations to easily enough distribute the
-ca-bundle, also automagically.&lt;/p&gt;
-</description>
-    </item>
     
     <item>
       <title>proxmox cloud</title>
       <link>http://www.roylarsen.xyz/posts/proxmox-cloud/</link>
-      <pubDate>Mon, 16 Jan 2017 20:41:45 -0500</pubDate>
+      <pubDate>Sat, 17 Jun 2017 20:41:45 -0500</pubDate>
       <author>info@roylarsen.xyz (Roy Larsen)</author>
       <guid>http://www.roylarsen.xyz/posts/proxmox-cloud/</guid>
       <description>
@@ -184,6 +144,54 @@ clouds do.&lt;/p&gt;
 beyond a stopgap until I get cloud-init working.&lt;/p&gt;
 
 &lt;p&gt;Plus, I&amp;rsquo;m pretty sure cloud-init will be a better solution for when I want to experiment with building LXC containers.&lt;/p&gt;
+
+&lt;h3 id=&#34;update-3-nerds&#34;&gt;Update 3, nerds&lt;/h3&gt;
+
+&lt;p&gt;So, I&amp;rsquo;ve been neglecting my blog because I&amp;rsquo;m a dummy.&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ve actually written my patch for the proxmox provider and have been using it in my homelab for a while at this point.&lt;/p&gt;
+
+&lt;p&gt;It was pretty cool, I got to learn how to do list comprehensions and now I can easily spin up new VMs in my lab!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>certificates</title>
+      <link>http://www.roylarsen.xyz/posts/certificates/</link>
+      <pubDate>Tue, 14 Feb 2017 23:07:05 -0500</pubDate>
+      <author>info@roylarsen.xyz (Roy Larsen)</author>
+      <guid>http://www.roylarsen.xyz/posts/certificates/</guid>
+      <description>
+
+&lt;h1 id=&#34;running-a-certificate-authority-is-kinda-annoying&#34;&gt;Running a certificate authority is kinda annoying&lt;/h1&gt;
+
+&lt;p&gt;I recently had a developer come to me with a question about an error they were getting with the &lt;a href=&#34;http://docs.python-requests.org/en/master/&#34;&gt;Requests&lt;/a&gt; Python Module.&lt;/p&gt;
+
+&lt;p&gt;The default for this module is to validate SSL certs. Makes sense, right? Validating SSL should be a thing you should do with HTTPS (you ARE using HTTPS for things, right?)&lt;/p&gt;
+
+&lt;p&gt;The issue came up where in development, the dev set validate to false so they could test hitting an API endpoint. Then they started moving from dev to test, removed that flag (or turned it to True),
+and then started having issues and didn&amp;rsquo;t understand why.&lt;/p&gt;
+
+&lt;p&gt;The wheels started turning and I started thinking of a service I wanted to build.&lt;/p&gt;
+
+&lt;h3 id=&#34;enter-the-fact-that-i-ve-been-working-on-learning-ruby-and-this-is-a-good-excuse-to-write-something-serious-ish-in-ruby&#34;&gt;Enter the fact that I&amp;rsquo;ve been working on learning Ruby and this is a good excuse to write something &amp;lsquo;serious-ish&amp;rsquo; in Ruby&lt;/h3&gt;
+
+&lt;p&gt;While Python is &amp;lt;3 for me, I&amp;rsquo;ve been learning Ruby since it&amp;rsquo;s also very popular within the DevOps space.&lt;/p&gt;
+
+&lt;p&gt;I have one project that I&amp;rsquo;m playing around with, this one will be slightly easier to write. This will be mostly a way for me to work on putting something together that&amp;rsquo;s distributable.&lt;/p&gt;
+
+&lt;h3 id=&#34;nuts-and-bolts-as-i-think-of-it-now&#34;&gt;Nuts and bolts as I think of it now&lt;/h3&gt;
+
+&lt;p&gt;My first release I want to provide just three API endpoints (a one-time POST, and two GETs), and a CLI utility for setting up a CA.&lt;/p&gt;
+
+&lt;p&gt;Requesting a Cert will work on a principle of &amp;lsquo;unique enough&amp;rsquo; identifiers. Since this is designed strictly for internal/enterprise/microservice use, you should be able to handle
+identity management by hand (this will be something to add on to in the future, perhaps).&lt;/p&gt;
+
+&lt;h3 id=&#34;tl-dr-because-roy-isn-t-a-good-writer&#34;&gt;tl;dr because Roy isn&amp;rsquo;t a good writer&lt;/h3&gt;
+
+&lt;p&gt;My scheme of schemes is to allow DevOps/Infrastructure management to be able to do a series of scripts (or cURL ffs) to generate a &amp;lsquo;unique enough&amp;rsquo; identifier and then call these URLs from your
+preferred configuration management tool (or even something like cloud-init) and request a certificate for the system automagically. It&amp;rsquo;ll allow organizations to easily enough distribute the
+ca-bundle, also automagically.&lt;/p&gt;
 </description>
     </item>
     
