@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>roylarsen.xyz</title>
+    <link>http://www.roylarsen.xyz/tags/digital-ocean/index.xml</link>
+    <description>Recent content on roylarsen.xyz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <managingEditor>info@roylarsen.xyz (Roy Larsen)</managingEditor>
+    <webMaster>info@roylarsen.xyz (Roy Larsen)</webMaster>
+    <atom:link href="http://www.roylarsen.xyz/tags/digital-ocean/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>terraform</title>
+      <link>http://www.roylarsen.xyz/posts/terraform/</link>
+      <pubDate>Thu, 29 Jun 2017 22:47:03 -0400</pubDate>
+      <author>info@roylarsen.xyz (Roy Larsen)</author>
+      <guid>http://www.roylarsen.xyz/posts/terraform/</guid>
+      <description>
+
+&lt;h1 id=&#34;a-poorly-written-intro-to-terraform&#34;&gt;A Poorly Written Intro to Terraform&lt;/h1&gt;
+
+&lt;p&gt;So, I&amp;rsquo;m probably late to this party. Very late.&lt;/p&gt;
+
+&lt;p&gt;I still have a lot to play around with, but after creating and destroying some Digital Ocean droplets, I&amp;rsquo;m already starting to see the power and utility of this tool (it&amp;rsquo;s fun
+when those things are easily seen right away).&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m a pretty firm believer that &lt;a href=&#34;https://www.hashicorp.com/&#34;&gt;Hashicorp&lt;/a&gt; deserves their reputation in the Devops space. Everyone uses at least some of their tools.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Vagrant&lt;/li&gt;
+&lt;li&gt;Packer&lt;/li&gt;
+&lt;li&gt;Consul&lt;/li&gt;
+&lt;li&gt;Vault&lt;/li&gt;
+&lt;li&gt;Nomad&lt;/li&gt;
+&lt;li&gt;Terraform&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So, back to the topic this is about: &lt;a href=&#34;https://www.terraform.io&#34;&gt;Terraform&lt;/a&gt; (here out referred to as, TF)&lt;/p&gt;
+
+&lt;p&gt;TF, in a basic sense, is pretty simple. It uses a pretty basic DSL for it&amp;rsquo;s config files and just the Terraform application.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;provider &amp;quot;digitalocean&amp;quot; {
+  token = &amp;quot;{api_token}&amp;quot;
+}
+
+resource &amp;quot;digitalocean_droplet&amp;quot; &amp;quot;resource-name&amp;quot; {
+  image = &amp;quot;ubuntu-17-04-x64&amp;quot;
+  region = &amp;quot;nyc2&amp;quot;
+  name = &amp;quot;droplet-name&amp;quot;
+  size = &amp;quot;512mb&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That&amp;rsquo;s about as basic a Digital Ocean config as you can get without having to declare anything extra on the cli.&lt;/p&gt;
+
+&lt;p&gt;At this point, all you need to do is&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;terraform plan
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;terraform apply
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;in your shell, and you should have an email in you inbox shortly telling you about your fancy new droplet named &amp;lsquo;droplet-name&amp;rsquo;.&lt;/p&gt;
+
+&lt;p&gt;That&amp;rsquo;s seriously it. Literally all you need.&lt;/p&gt;
+
+&lt;p&gt;Now, the complexity of TF comes from your specific infrastructure. But the building blocks are all basically the same.&lt;/p&gt;
+
+&lt;p&gt;Obviously I haven&amp;rsquo;t gotten far in this, but I&amp;rsquo;m already seeing the potential in what I want to do with it. The biggest thing I see to do with this is using it to
+build a travel homelab. Yeah, it&amp;rsquo;ll cost money, but I&amp;rsquo;ll be able to play with things while I&amp;rsquo;m away easily.&lt;/p&gt;
+
+&lt;p&gt;That&amp;rsquo;s about it for now. I&amp;rsquo;ll probably have follow ups to this when I get further in learning TF.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -5,31 +5,69 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>roylarsen.xyz </title>
+  <title>terraform  &middot; roylarsen.xyz</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="description" content="" />
+<meta name="description" content="A Poorly Written Introduction to Terraform" />
 
-<meta name="keywords" content="">
+<meta name="keywords" content="devops, IoC, hashicorp, Digital Ocean, ">
 
 
-<meta property="og:title" content="roylarsen.xyz ">
+<meta property="og:title" content="terraform  &middot; roylarsen.xyz ">
 <meta property="og:site_name" content="roylarsen.xyz"/>
-<meta property="og:url" content="http://www.roylarsen.xyz/" />
+<meta property="og:url" content="http://www.roylarsen.xyz/posts/terraform/" />
 <meta property="og:locale" content="en-us">
 
 
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
+<meta property="og:description" content="A Poorly Written Introduction to Terraform"/>
+<meta property="og:article:published_time" content="2017-06-29T22:47:03-04:00" />
+<meta property="og:article:modified_time" content="2017-06-29T22:47:03-04:00" />
+
+  
+    
+<meta property="og:article:tag" content="devops">
+    
+<meta property="og:article:tag" content="IoC">
+    
+<meta property="og:article:tag" content="hashicorp">
+    
+<meta property="og:article:tag" content="Digital Ocean">
+    
+  
+
+  
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@" />
+<meta name="twitter:creator" content="@" />
+<meta name="twitter:title" content="terraform" />
+<meta name="twitter:description" content="A Poorly Written Introduction to Terraform" />
+<meta name="twitter:url" content="http://www.roylarsen.xyz/posts/terraform/" />
+<meta name="twitter:domain" content="http://www.roylarsen.xyz/">
+  
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "terraform",
+    "author": {
+      "@type": "Person",
+      "name": "http://profiles.google.com/+?rel=author"
+    },
+    "datePublished": "2017-06-29",
+    "description": "A Poorly Written Introduction to Terraform",
+    "wordCount":  300 
+  }
+</script>
 
 
 
-<link href="http://www.roylarsen.xyz/index.xml" rel="alternate" type="application/rss+xml" title="roylarsen.xyz" />
-
-<link rel="canonical" href="http://www.roylarsen.xyz/" />
+<link rel="canonical" href="http://www.roylarsen.xyz/posts/terraform/" />
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
 <link rel="icon" href="/favicon.png">
 <meta name="generator" content="Hugo 0.17" />
@@ -106,25 +144,31 @@
   </header>
 
 
-  <div class="container">
-    
-    <div class="row">
-      <div class="col-sm-12">
-        
-        
-          <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div>
-  <h2><a href="http://www.roylarsen.xyz/posts/terraform/">terraform</a>
-</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="text-center">
 
-  <div class="margin-10">
-    <small>
+    <h1>terraform
+</h1>
+
+    <div class="metas">
+<small>
   <i class="fa fa-calendar"></i>
   <time datetime="2017-06-29">29 Jun, 2017</time>
 </small>
 
-    
+
+  <small>
+    &middot; by roy.
+  
+  &middot; Read in about 2 min
+  &middot; (300 words)
+</small>
+
+
+<div class="margin-10">
   <i class="fa fa-tags"></i>
   
   <a href="http://www.roylarsen.xyz/tags/devops" class="label label-primary">devops</a>
@@ -137,212 +181,105 @@
   
 
 
-  </div>
 </div>
-
-    <p>
-  
-  
-    A Poorly Written Introduction to Terraform
-  
-
-
-</p>
-
-
-    <p class="lead"><a href="http://www.roylarsen.xyz/posts/terraform/" class="btn btn-default">Read more &rarr;</a></p>
-
+<br>
+</div>
 
   </div>
 </div>
 
-        
-          <div class="row">
+      <div class="content">
+  
+
+<h1 id="a-poorly-written-intro-to-terraform">A Poorly Written Intro to Terraform</h1>
+
+<p>So, I&rsquo;m probably late to this party. Very late.</p>
+
+<p>I still have a lot to play around with, but after creating and destroying some Digital Ocean droplets, I&rsquo;m already starting to see the power and utility of this tool (it&rsquo;s fun
+when those things are easily seen right away).</p>
+
+<p>I&rsquo;m a pretty firm believer that <a href="https://www.hashicorp.com/">Hashicorp</a> deserves their reputation in the Devops space. Everyone uses at least some of their tools.</p>
+
+<ul>
+<li>Vagrant</li>
+<li>Packer</li>
+<li>Consul</li>
+<li>Vault</li>
+<li>Nomad</li>
+<li>Terraform</li>
+</ul>
+
+<p>So, back to the topic this is about: <a href="https://www.terraform.io">Terraform</a> (here out referred to as, TF)</p>
+
+<p>TF, in a basic sense, is pretty simple. It uses a pretty basic DSL for it&rsquo;s config files and just the Terraform application.</p>
+
+<pre><code>provider &quot;digitalocean&quot; {
+  token = &quot;{api_token}&quot;
+}
+
+resource &quot;digitalocean_droplet&quot; &quot;resource-name&quot; {
+  image = &quot;ubuntu-17-04-x64&quot;
+  region = &quot;nyc2&quot;
+  name = &quot;droplet-name&quot;
+  size = &quot;512mb&quot;
+}
+</code></pre>
+
+<p>That&rsquo;s about as basic a Digital Ocean config as you can get without having to declare anything extra on the cli.</p>
+
+<p>At this point, all you need to do is</p>
+
+<pre><code>terraform plan
+</code></pre>
+
+<pre><code>terraform apply
+</code></pre>
+
+<p>in your shell, and you should have an email in you inbox shortly telling you about your fancy new droplet named &lsquo;droplet-name&rsquo;.</p>
+
+<p>That&rsquo;s seriously it. Literally all you need.</p>
+
+<p>Now, the complexity of TF comes from your specific infrastructure. But the building blocks are all basically the same.</p>
+
+<p>Obviously I haven&rsquo;t gotten far in this, but I&rsquo;m already seeing the potential in what I want to do with it. The biggest thing I see to do with this is using it to
+build a travel homelab. Yeah, it&rsquo;ll cost money, but I&rsquo;ll be able to play with things while I&rsquo;m away easily.</p>
+
+<p>That&rsquo;s about it for now. I&rsquo;ll probably have follow ups to this when I get further in learning TF.</p>
+
+</div>
+
+
+      <footer>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div>
-  <h2><a href="http://www.roylarsen.xyz/posts/proxmox-cloud/">proxmox cloud</a>
-</h2>
-
-  <div class="margin-10">
-    <small>
-  <i class="fa fa-calendar"></i>
-  <time datetime="2017-06-17">17 Jun, 2017</time>
-</small>
-
-    
-  <i class="fa fa-tags"></i>
-  
-  <a href="http://www.roylarsen.xyz/tags/virtualization" class="label label-primary">virtualization</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/cloud" class="label label-primary">cloud</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/saltstack" class="label label-primary">saltstack</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/python" class="label label-primary">python</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/salt-cloud" class="label label-primary">salt-cloud</a>
-  
-
-
-  </div>
-</div>
-
-    <p>
-  
-  
-    salt-cloud and proxmox
-  
-
-
-</p>
-
-
-    <p class="lead"><a href="http://www.roylarsen.xyz/posts/proxmox-cloud/" class="btn btn-default">Read more &rarr;</a></p>
-
-
-  </div>
-</div>
-
-        
-          <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div>
-  <h2><a href="http://www.roylarsen.xyz/posts/certificates/">certificates</a>
-</h2>
-
-  <div class="margin-10">
-    <small>
-  <i class="fa fa-calendar"></i>
-  <time datetime="2017-02-14">14 Feb, 2017</time>
-</small>
-
-    
-  <i class="fa fa-tags"></i>
-  
-  <a href="http://www.roylarsen.xyz/tags/https" class="label label-primary">https</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/ruby" class="label label-primary">ruby</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/openssl" class="label label-primary">openssl</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/love" class="label label-primary">love</a>
-  
-
-
-  </div>
-</div>
-
-    <p>
-  
-  
-    certificate authority tool
-  
-
-
-</p>
-
-
-    <p class="lead"><a href="http://www.roylarsen.xyz/posts/certificates/" class="btn btn-default">Read more &rarr;</a></p>
-
-
-  </div>
-</div>
-
-        
-          <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div>
-  <h2><a href="http://www.roylarsen.xyz/posts/christmas/">christmas</a>
-</h2>
-
-  <div class="margin-10">
-    <small>
-  <i class="fa fa-calendar"></i>
-  <time datetime="2016-12-17">17 Dec, 2016</time>
-</small>
-
-    
-  <i class="fa fa-tags"></i>
-  
-  <a href="http://www.roylarsen.xyz/tags/holidays" class="label label-primary">holidays</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/projects" class="label label-primary">projects</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/virtualization" class="label label-primary">virtualization</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/saltstack" class="label label-primary">saltstack</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/python" class="label label-primary">python</a>
-  
-
-
-  </div>
-</div>
-
-    <p>
-  
-  
-    Christmas week projects
-  
-
-
-</p>
-
-
-    <p class="lead"><a href="http://www.roylarsen.xyz/posts/christmas/" class="btn btn-default">Read more &rarr;</a></p>
-
-
-  </div>
-</div>
-
-        
-          <div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div>
-  <h2><a href="http://www.roylarsen.xyz/posts/first/">first</a>
-</h2>
-
-  <div class="margin-10">
-    <small>
-  <i class="fa fa-calendar"></i>
-  <time datetime="2016-12-10">10 Dec, 2016</time>
-</small>
-
-    
-  <i class="fa fa-tags"></i>
-  
-  <a href="http://www.roylarsen.xyz/tags/first" class="label label-primary">First</a>
-  
-
-
-  </div>
-</div>
-
-    <p>
-  
-  
-    what&rsquo;re we doing here?
-  
-
-
-</p>
-
-
-    <p class="lead"><a href="http://www.roylarsen.xyz/posts/first/" class="btn btn-default">Read more &rarr;</a></p>
-
-
-  </div>
-</div>
-
-        
-        
-
-      </div>
       
+  
+    <nav><ul class="pager">
+    
+        <li class="previous">
+          <a href="http://www.roylarsen.xyz/posts/proxmox-cloud/" title="proxmox cloud">
+            <span aria-hidden="true">&larr;</span>Previous
+          </a>
+        </li>
+    
+
+    
+    </ul> </nav>
+  
+
+
+</div>
+
+  <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+  
+
+</div>
+
+</footer>
+
     </div>
-
+    
   </div>
-
+</div>
       
 <footer class="footer hidden-print">
   <div class="container">
