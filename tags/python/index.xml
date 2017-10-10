@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>roylarsen.xyz</title>
-    <link>http://www.roylarsen.xyz/tags/python/index.xml</link>
-    <description>Recent content on roylarsen.xyz</description>
+    <title>Python on roylarsen.xyz</title>
+    <link>http://www.roylarsen.xyz/tags/python/</link>
+    <description>Recent content in Python on roylarsen.xyz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <managingEditor>info@roylarsen.xyz (Roy Larsen)</managingEditor>
     <webMaster>info@roylarsen.xyz (Roy Larsen)</webMaster>
-    <atom:link href="http://www.roylarsen.xyz/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 17 Jun 2017 20:41:45 -0500</lastBuildDate>
+    
+	<atom:link href="http://www.roylarsen.xyz/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>proxmox cloud</title>
@@ -16,142 +19,8 @@
       <pubDate>Sat, 17 Jun 2017 20:41:45 -0500</pubDate>
       <author>info@roylarsen.xyz (Roy Larsen)</author>
       <guid>http://www.roylarsen.xyz/posts/proxmox-cloud/</guid>
-      <description>
-
-&lt;h1 id=&#34;proxmox-salt-cloud-kinda3&#34;&gt;Proxmox + salt-cloud = &amp;lt;kinda3&lt;/h1&gt;
-
-&lt;p&gt;So, I&amp;rsquo;ve been working on getting salt-cloud playing nicely with Proxmox. The biggest issue I&amp;rsquo;ve seen so far is within salt-cloud&amp;rsquo;s proxmox driver is more of a limitation within proxmox itself.&lt;/p&gt;
-
-&lt;p&gt;Unless you statically assign you IP address, you&amp;rsquo;re not going to see your IP address in the GUI or in the standard salt-cloud query to your hypervisor. The proxmox driver also allows your to query DNS for
-the IP address of your machine.&lt;/p&gt;
-
-&lt;p&gt;Neither of those really work for me at home, since I like to have my VMs get an address from DHCP, then convert that to a static reservation when I&amp;rsquo;m sure that VM will stick around.&lt;/p&gt;
-
-&lt;p&gt;My prefered solution would be to pull the IP address straight from the hypervisor, which would make my life so much easier. That&amp;rsquo;s doable when you&amp;rsquo;re using the VMWare/ESXi driver when the agent is
-installed, I figure that there should be a way of handling that within Proxmox.&lt;/p&gt;
-
-&lt;p&gt;Enter the &lt;a href=&#34;https://pve.proxmox.com/wiki/Qemu-guest-agent&#34;&gt;QEMU Guest Agent&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;As it turns out, installing this is pretty easy. You install the service within your target VM, set the Agent option under hardware in the PVE web GUI to &amp;lsquo;On&amp;rsquo;, and then you reboot the VM.&lt;/p&gt;
-
-&lt;p&gt;Boom. Easy.&lt;/p&gt;
-
-&lt;p&gt;At this point you have better access to the guest through the API (either through the web or pvesh command on the host).&lt;/p&gt;
-
-&lt;p&gt;Now I&amp;rsquo;m not going to do into details about how long it took me to dig through the PVE API, but I found what I want.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://pve.proxmox.com/pve-docs/api-viewer/index.html&#34;&gt;PVE APIv2 Docs!&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Dig down to nodes/{node}/qemu/{vmid}/agent - That&amp;rsquo;s the API commands for querying the guest agent directly. Not a lot is implemented, however, network-get-interfaces looks promising.&lt;/p&gt;
-
-&lt;p&gt;(spoiler: that&amp;rsquo;s what we want)&lt;/p&gt;
-
-&lt;p&gt;So playing around with pvesh on my VM host gets me to this command:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;pvesh create nodes/technodrome/qemu/101/agent -command network-get-interfaces
-
-(yes, my main node name is a reference to TMNT)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;That returns a JSON response with all the network information on the interfaces on your guest:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;pvesh create nodes/technodrome/qemu/101/agent -command network-get-interfaces
-200 OK
-{
-  &amp;quot;result&amp;quot; : [
-    {
-      &amp;quot;hardware-address&amp;quot; : &amp;quot;00:00:00:00:00:00&amp;quot;,
-      &amp;quot;ip-addresses&amp;quot; : [
-        {
-          &amp;quot;ip-address&amp;quot; : &amp;quot;127.0.0.1&amp;quot;,
-          &amp;quot;ip-address-type&amp;quot; : &amp;quot;ipv4&amp;quot;,
-          &amp;quot;prefix&amp;quot; : 8
-        },
-        {
-          &amp;quot;ip-address&amp;quot; : &amp;quot;::1&amp;quot;,
-          &amp;quot;ip-address-type&amp;quot; : &amp;quot;ipv6&amp;quot;,
-          &amp;quot;prefix&amp;quot; : 128
-        }
-      ],
-      &amp;quot;name&amp;quot; : &amp;quot;lo&amp;quot;
-    },
-    {
-      &amp;quot;hardware-address&amp;quot; : &amp;quot;&amp;lt;MAC address&amp;gt;&amp;quot;,
-      &amp;quot;ip-addresses&amp;quot; : [
-        {
-          &amp;quot;ip-address&amp;quot; : &amp;quot;&amp;lt;ipv4 address&amp;quot;,
-          &amp;quot;ip-address-type&amp;quot; : &amp;quot;ipv4&amp;quot;,
-          &amp;quot;prefix&amp;quot; : 24
-        },
-        {
-          &amp;quot;ip-address&amp;quot; : &amp;quot;&amp;lt;ipv6 address&amp;gt;&amp;quot;,
-          &amp;quot;ip-address-type&amp;quot; : &amp;quot;ipv6&amp;quot;,
-          &amp;quot;prefix&amp;quot; : 64
-        }
-      ],
-      &amp;quot;name&amp;quot; : &amp;quot;eth0&amp;quot;
-    }
-  ]
-}
-
-sanitised so you can&#39;t see my internal numbering scheme
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;oh-shit&#34;&gt;OH SHIT.&lt;/h3&gt;
-
-&lt;p&gt;So, now the biggest obstacles I have are as follow:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Getting what I found into: &lt;a href=&#34;https://github.com/saltstack/salt/blob/develop/salt/cloud/clouds/proxmox.py&#34;&gt;https://github.com/saltstack/salt/blob/develop/salt/cloud/clouds/proxmox.py&lt;/a&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Need to create a function &lt;code&gt;wait_for_ip_address()&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Need to add some options to the Proxmox profile to handle being able to use DHCP&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Support having multiple interfaces that aren&amp;rsquo;t lo&lt;/li&gt;
-&lt;li&gt;Get patch accepted into salt-cloud
-
-&lt;ul&gt;
-&lt;li&gt;(Or I just keep it for myself)&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;update-nerds&#34;&gt;UPDATE, NERDS&lt;/h3&gt;
-
-&lt;p&gt;So, as I&amp;rsquo;ve been working on the code for my patch to the proxmox provider, I was running some other solutions to my problem in my head.&lt;/p&gt;
-
-&lt;p&gt;Enter: &lt;a href=&#34;https://cloudinit.readthedocs.io/en/latest/&#34;&gt;cloud-init&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;What I&amp;rsquo;ve been realizing that I can do is use cloud-init to run a python scipt to set the hostname of the box.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Get the VMID of the VM
-
-&lt;ul&gt;
-&lt;li&gt;possibly use the MAC address as my unique identifier?&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Use VMID to call /qemu/{VMID}/status/current&lt;/li&gt;
-&lt;li&gt;Potentially use a shell script instead of a Python script to lower the amount of dependencies used&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;update-2-nerds&#34;&gt;Update 2, nerds&lt;/h3&gt;
-
-&lt;p&gt;I think at this point I am going to eventually end up with the cloud-init solution. I think it&amp;rsquo;s the easiest to support and it&amp;rsquo;s &lt;a href=&#34;http://cloudinit.readthedocs.io/en/latest/topics/datasources/digitalocean.html&#34;&gt;really&lt;/a&gt; &lt;a href=&#34;http://cloudinit.readthedocs.io/en/latest/topics/datasources/ec2.html&#34;&gt;interesting&lt;/a&gt; &lt;a href=&#34;http://cloudinit.readthedocs.io/en/latest/topics/datasources/configdrive.html&#34;&gt;what&lt;/a&gt; &lt;a href=&#34;http://cloudinit.readthedocs.io/en/latest/topics/datasources/azure.html&#34;&gt;other&lt;/a&gt;
-clouds do.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m going to write my patch for the Proxmox provider, but probably just keep that fork as an example in my github account as something to show off. It&amp;rsquo;ll be a fun exercise, but I don&amp;rsquo;t see it as supportable
-beyond a stopgap until I get cloud-init working.&lt;/p&gt;
-
-&lt;p&gt;Plus, I&amp;rsquo;m pretty sure cloud-init will be a better solution for when I want to experiment with building LXC containers.&lt;/p&gt;
-
-&lt;h3 id=&#34;update-3-nerds&#34;&gt;Update 3, nerds&lt;/h3&gt;
-
-&lt;p&gt;So, I&amp;rsquo;ve been neglecting my blog because I&amp;rsquo;m a dummy.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve actually written my patch for the proxmox provider and have been using it in my homelab for a while at this point.&lt;/p&gt;
-
-&lt;p&gt;It was pretty cool, I got to learn how to do list comprehensions and now I can easily spin up new VMs in my lab!&lt;/p&gt;
-</description>
+      <description>Proxmox + salt-cloud = &amp;lt;kinda3 So, I&amp;rsquo;ve been working on getting salt-cloud playing nicely with Proxmox. The biggest issue I&amp;rsquo;ve seen so far is within salt-cloud&amp;rsquo;s proxmox driver is more of a limitation within proxmox itself.
+Unless you statically assign you IP address, you&amp;rsquo;re not going to see your IP address in the GUI or in the standard salt-cloud query to your hypervisor. The proxmox driver also allows your to query DNS for the IP address of your machine.</description>
     </item>
     
     <item>
@@ -160,72 +29,11 @@ beyond a stopgap until I get cloud-init working.&lt;/p&gt;
       <pubDate>Sat, 17 Dec 2016 11:17:15 -0500</pubDate>
       <author>info@roylarsen.xyz (Roy Larsen)</author>
       <guid>http://www.roylarsen.xyz/posts/christmas/</guid>
-      <description>
-
-&lt;h1 id=&#34;christmas&#34;&gt;christmas.&lt;/h1&gt;
-
-&lt;p&gt;It&amp;rsquo;s December 17th. In a month and a half, I&amp;rsquo;ll have lived in the Boston area for a year.&lt;/p&gt;
-
-&lt;p&gt;What.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-I have one week left of work this year, then HBG is off for Christmas week.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;m currently working on coming up with my projects for the week so I don&amp;rsquo;t get bored.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;del&gt;## hypervisor.&lt;/del&gt;&lt;/p&gt;
-
-&lt;h6 id=&#34;proxmox-and-plex-are-now-things-in-my-env&#34;&gt;(proxmox and plex are now things in my env)&lt;/h6&gt;
-
-&lt;p&gt;I want to rebuild my lab Hypervisor. &lt;a href=&#34;http://xenserver.org/&#34;&gt;XenServer&lt;/a&gt; is nice and all, but the community support and tooling just isn&amp;rsquo;t there.&lt;/p&gt;
-
-&lt;p&gt;Right now, I&amp;rsquo;m planning on burning everything to the ground and installing &lt;a href=&#34;https://www.proxmox.com/en/proxmox-ve&#34;&gt;Proxmox&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Once that&amp;rsquo;s a thing, I&amp;rsquo;ll be rebuilding my &lt;a href=&#34;https://www.plex.tv/&#34;&gt;Plex&lt;/a&gt; VM so I have something to watch.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ll also price out some RAM and see about doubling my RAM.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;del&gt;## saltstack.&lt;/del&gt;&lt;/p&gt;
-
-&lt;h6 id=&#34;i-now-have-a-salt-master-in-my-env&#34;&gt;(I now have a salt master in my env)&lt;/h6&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://saltstack.com/&#34;&gt;Saltstack&lt;/a&gt; is the big reason I&amp;rsquo;m wanting to rebuild my hypervisor.&lt;/p&gt;
-
-&lt;p&gt;Xen is nice, but the client is Windows-only and I want to get into using more &lt;a href=&#34;https://docs.saltstack.com/en/latest/topics/cloud/index.html&#34;&gt;salt-cloud&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Once my salt-master is in place, my goal is to replicate(-ish) what we&amp;rsquo;re doing at HBG so I have a place to play at home.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&#34;skynet-ng&#34;&gt;skynet-ng&lt;/h2&gt;
-
-&lt;p&gt;This is more of a for-fun thing I&amp;rsquo;m not really planning on releasing.&lt;/p&gt;
-
-&lt;p&gt;This is a joke about some software HBG Infrastructure is trying to tear out. This will be mostly a overview dashboard of our systems.&lt;/p&gt;
-
-&lt;p&gt;Will this get done over break? Probably not&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&#34;test-salt&#34;&gt;test-salt&lt;/h2&gt;
-
-&lt;p&gt;Why should chef have all the cool infrastructure testing tools?&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve started playing around with automating &lt;a href=&#34;https://www.vagrantup.com/&#34;&gt;Vagrant&lt;/a&gt; and the Python &lt;a href=&#34;https://github.com/philpep/testinfra&#34;&gt;testinfra&lt;/a&gt; module.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/test-kitchen/test-kitchen&#34;&gt;test-kitchen&lt;/a&gt; is a great tool for Infrastructure as Code. However, it&amp;rsquo;s a Ruby tool and requires a
-Ruby toolchain to get going. You know what doesn&amp;rsquo;t use Ruby and the people working with it probably wont have a Ruby toolchain installed? People using
-Saltstack or Ansible.&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ve done a little bit, but will it get done? Maybe.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/roylarsen/test-salt&#34;&gt;test-salt&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>christmas. It&amp;rsquo;s December 17th. In a month and a half, I&amp;rsquo;ll have lived in the Boston area for a year.
+What. I have one week left of work this year, then HBG is off for Christmas week.
+I&amp;rsquo;m currently working on coming up with my projects for the week so I don&amp;rsquo;t get bored.
+## hypervisor.
+(proxmox and plex are now things in my env) I want to rebuild my lab Hypervisor.</description>
     </item>
     
   </channel>

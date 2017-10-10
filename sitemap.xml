@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://www.roylarsen.xyz/</loc>
-    <lastmod>2017-06-29T22:47:03-04:00</lastmod>
+    <loc>http://www.roylarsen.xyz/posts/mhb/</loc>
+    <lastmod>2017-10-09T22:06:00+00:00</lastmod>
   </url>
   
   <url>
@@ -34,6 +35,137 @@
   <url>
     <loc>http://www.roylarsen.xyz/about/</loc>
     <lastmod>2016-12-10T16:04:53-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/cloud/</loc>
+    <lastmod>2017-06-17T20:41:45-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/devops/</loc>
+    <lastmod>2017-10-09T22:06:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/digital-ocean/</loc>
+    <lastmod>2017-06-29T22:47:03-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/duckets/</loc>
+    <lastmod>2017-10-09T22:06:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/first/</loc>
+    <lastmod>2016-12-10T17:49:12-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/hashicorp/</loc>
+    <lastmod>2017-06-29T22:47:03-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/holidays/</loc>
+    <lastmod>2016-12-17T11:17:15-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/https/</loc>
+    <lastmod>2017-02-14T23:07:05-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/ioc/</loc>
+    <lastmod>2017-06-29T22:47:03-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/love/</loc>
+    <lastmod>2017-02-14T23:07:05-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/openssl/</loc>
+    <lastmod>2017-02-14T23:07:05-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/posts/</loc>
+    <lastmod>2017-10-09T22:06:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/projects/</loc>
+    <lastmod>2016-12-17T11:17:15-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/python/</loc>
+    <lastmod>2017-06-17T20:41:45-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/ruby/</loc>
+    <lastmod>2017-02-14T23:07:05-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/salt-cloud/</loc>
+    <lastmod>2017-06-17T20:41:45-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/saltstack/</loc>
+    <lastmod>2017-06-17T20:41:45-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/</loc>
+    <lastmod>2017-06-17T20:41:45-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/virtualization/</loc>
+    <lastmod>2017-06-17T20:41:45-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/tags/work/</loc>
+    <lastmod>2017-10-09T22:06:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://www.roylarsen.xyz/</loc>
+    <lastmod>2017-10-09T22:06:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
 </urlset>
