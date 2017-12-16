@@ -51,6 +51,12 @@ img {
   height: auto;
 }
 
+img[src$='#center']
+{
+    margin: 0 auto;
+    display: block;
+}
+
 .nopadding {
   padding: 0 !important;
   margin: 0 !important;
@@ -60,6 +66,7 @@ img {
 
 p {
   text-align: justify;
+  padding: 20px;
 }
 
 /* Responsive video? */
