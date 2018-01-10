@@ -8,10 +8,22 @@
     <language>en-us</language>
     <managingEditor>info@roylarsen.xyz (Roy Larsen)</managingEditor>
     <webMaster>info@roylarsen.xyz (Roy Larsen)</webMaster>
-    <lastBuildDate>Fri, 15 Dec 2017 11:17:15 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 09 Jan 2018 06:30:15 -0500</lastBuildDate>
     
 	<atom:link href="http://www.roylarsen.xyz/tags/saltstack/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>saltstack gitfs</title>
+      <link>http://www.roylarsen.xyz/posts/gitfs/</link>
+      <pubDate>Tue, 09 Jan 2018 06:30:15 -0500</pubDate>
+      <author>info@roylarsen.xyz (Roy Larsen)</author>
+      <guid>http://www.roylarsen.xyz/posts/gitfs/</guid>
+      <description>Saltstack gitfs This is mostly notes for myself, but I wanted to write up an easy reference.
+basics This is to get a basic setup with a map from saltenv to git branch.
+This requires some basic knowlege of saltstack concepts like pillar, salt environments.
+My setup is pretty simplistic, I have two main branches: master and dev. The branches are present in the state and pillar repos. Top files are managed per-repo, per-branch (there are probably better ways of handling it, but this is fine for right now).</description>
+    </item>
     
     <item>
       <title>devops(-ish)</title>

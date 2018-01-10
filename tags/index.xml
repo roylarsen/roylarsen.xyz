@@ -59,6 +59,24 @@
     </item>
     
     <item>
+      <title>Git</title>
+      <link>http://www.roylarsen.xyz/tags/git/</link>
+      <pubDate>Tue, 09 Jan 2018 06:30:15 -0500</pubDate>
+      <author>info@roylarsen.xyz (Roy Larsen)</author>
+      <guid>http://www.roylarsen.xyz/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gitfs</title>
+      <link>http://www.roylarsen.xyz/tags/gitfs/</link>
+      <pubDate>Tue, 09 Jan 2018 06:30:15 -0500</pubDate>
+      <author>info@roylarsen.xyz (Roy Larsen)</author>
+      <guid>http://www.roylarsen.xyz/tags/gitfs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Hashicorp</title>
       <link>http://www.roylarsen.xyz/tags/hashicorp/</link>
       <pubDate>Thu, 29 Jun 2017 22:47:03 -0400</pubDate>
@@ -151,7 +169,7 @@
     <item>
       <title>Saltstack</title>
       <link>http://www.roylarsen.xyz/tags/saltstack/</link>
-      <pubDate>Fri, 15 Dec 2017 11:17:15 -0500</pubDate>
+      <pubDate>Tue, 09 Jan 2018 06:30:15 -0500</pubDate>
       <author>info@roylarsen.xyz (Roy Larsen)</author>
       <guid>http://www.roylarsen.xyz/tags/saltstack/</guid>
       <description></description>

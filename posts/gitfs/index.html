@@ -5,38 +5,36 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>devops(-ish)  &middot; roylarsen.xyz</title>
+  <title>saltstack gitfs  &middot; roylarsen.xyz</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="HandheldFriendly" content="True">
 <meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="description" content="devops(-ish)" />
+<meta name="description" content="quick intro to saltstack gitfs" />
 
-<meta name="keywords" content="devops, saltstack, python, work, ">
+<meta name="keywords" content="saltstack, gitfs, git, ">
 
 
-<meta property="og:title" content="devops(-ish)  &middot; roylarsen.xyz ">
+<meta property="og:title" content="saltstack gitfs  &middot; roylarsen.xyz ">
 <meta property="og:site_name" content="roylarsen.xyz"/>
-<meta property="og:url" content="http://www.roylarsen.xyz/posts/devops/" />
+<meta property="og:url" content="http://www.roylarsen.xyz/posts/gitfs/" />
 <meta property="og:locale" content="en-us">
 
 
 <meta property="og:type" content="article" />
-<meta property="og:description" content="devops(-ish)"/>
-<meta property="og:article:published_time" content="2017-12-15T11:17:15-05:00" />
-<meta property="og:article:modified_time" content="2017-12-15T11:17:15-05:00" />
+<meta property="og:description" content="quick intro to saltstack gitfs"/>
+<meta property="og:article:published_time" content="2018-01-09T06:30:15-05:00" />
+<meta property="og:article:modified_time" content="2018-01-09T06:30:15-05:00" />
 
   
     
-<meta property="og:article:tag" content="devops">
-    
 <meta property="og:article:tag" content="saltstack">
     
-<meta property="og:article:tag" content="python">
+<meta property="og:article:tag" content="gitfs">
     
-<meta property="og:article:tag" content="work">
+<meta property="og:article:tag" content="git">
     
   
 
@@ -44,9 +42,9 @@
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@" />
 <meta name="twitter:creator" content="@" />
-<meta name="twitter:title" content="devops(-ish)" />
-<meta name="twitter:description" content="devops(-ish)" />
-<meta name="twitter:url" content="http://www.roylarsen.xyz/posts/devops/" />
+<meta name="twitter:title" content="saltstack gitfs" />
+<meta name="twitter:description" content="quick intro to saltstack gitfs" />
+<meta name="twitter:url" content="http://www.roylarsen.xyz/posts/gitfs/" />
 <meta name="twitter:domain" content="http://www.roylarsen.xyz/">
   
 
@@ -54,20 +52,20 @@
   {
     "@context": "http://schema.org",
     "@type": "Article",
-    "headline": "devops(-ish)",
+    "headline": "saltstack gitfs",
     "author": {
       "@type": "Person",
       "name": "http://profiles.google.com/+?rel=author"
     },
-    "datePublished": "2017-12-15",
-    "description": "devops(-ish)",
-    "wordCount": 346
+    "datePublished": "2018-01-09",
+    "description": "quick intro to saltstack gitfs",
+    "wordCount": 424
   }
 </script>
 
 
 
-<link rel="canonical" href="http://www.roylarsen.xyz/posts/devops/" />
+<link rel="canonical" href="http://www.roylarsen.xyz/posts/gitfs/" />
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/touch-icon-144-precomposed.png">
 <link rel="icon" href="/favicon.png">
 <meta name="generator" content="Hugo 0.25.1" />
@@ -150,13 +148,13 @@
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <div class="text-center">
 
-    <h1>devops(-ish)
+    <h1>saltstack gitfs
 </h1>
 
     <div class="metas">
 <small>
   <i class="fa fa-calendar"></i>
-  <time datetime="2017-12-15">15 Dec, 2017</time>
+  <time datetime="2018-01-09">9 Jan, 2018</time>
 </small>
 
 
@@ -164,20 +162,18 @@
     &middot; by roy.
   
   &middot; Read in about 2 min
-  &middot; (346 words)
+  &middot; (424 words)
 </small>
 
 
 <div class="margin-10">
   <i class="fa fa-tags"></i>
   
-  <a href="http://www.roylarsen.xyz/tags/devops" class="label label-primary">devops</a>
+  <a href="http://www.roylarsen.xyz/tags/gitfs" class="label label-primary">gitfs</a>
   
   <a href="http://www.roylarsen.xyz/tags/saltstack" class="label label-primary">saltstack</a>
   
-  <a href="http://www.roylarsen.xyz/tags/python" class="label label-primary">python</a>
-  
-  <a href="http://www.roylarsen.xyz/tags/work" class="label label-primary">work</a>
+  <a href="http://www.roylarsen.xyz/tags/git" class="label label-primary">git</a>
   
 
 
@@ -191,40 +187,100 @@
       <div class="content">
   
 
-<p><img src="/img_dog.png#center" alt="Me, basically" /></p>
+<h1 id="saltstack-gitfs">Saltstack gitfs</h1>
 
-<p>Well, not really. I have a pretty decent idea of what&rsquo;s going on.. Trust me, I&rsquo;ve got this (mostly)
- I&rsquo;ve also figured out how to do images in Hugo, #dealwtithit</p>
+<p>This is mostly notes for myself, but I wanted to write up an easy reference.</p>
 
-<h3 id="mhqa">mhqa</h3>
+<h3 id="basics">basics</h3>
 
-<p>I&rsquo;m currently working on authoring a tool in python, and that&rsquo;s been fun to work
-on. It&rsquo;s currently pretty limited in scope, but soon I should be able to start
-building things out and really start doing some fun Continuous Deployment/Delivery
-stuff for our QA people.</p>
+<p>This is to get a basic setup with a map from saltenv to git branch.</p>
 
-<p>Long story short, this tool uses the saltstack API (probably something I&rsquo;ll write a post about in the future)
-to interact with the vSphere API to revert back to &ldquo;clean&rdquo; snapshots and reinstall our backend
-software with a named version on the CLI. In the future, I&rsquo;ll probably kill off the snapshot part of
-the tool (because you&rsquo;re not really supposed to use snapshots like that) and just do fresh VMs for installs
-(and upgrade installs).</p>
+<p>This requires some basic knowlege of saltstack concepts like pillar, salt environments.</p>
 
-<p>It&rsquo;ll be exciting to see this tool when I finish it. It&rsquo;s the first real bit of programming I&rsquo;ve ever
-done at work (I think I&rsquo;m up to ~200 lines of code, probably closer to 300 with the salt runner I wrote
-to revert snapshots).</p>
+<p>My setup is pretty simplistic, I have two main branches: master and dev. The branches are
+present in the state and pillar repos. Top files are managed per-repo, per-branch (there are
+probably better ways of handling it, but this is fine for right now).</p>
 
-<h3 id="moar-saltstack">moar saltstack</h3>
+<p>Here&rsquo;s the link to the saltstack docs on gitfs: <a href="https://docs.saltstack.com/en/latest/topics/tutorials/gitfs.html">https://docs.saltstack.com/en/latest/topics/tutorials/gitfs.html</a>
+For my notes/usage, I use pygit2 and ssh key auth.</p>
 
-<p>A big reason I was hired into this role was because I had experience doing using Saltstack. Today (20171215)
-I spent a bunch of time setting up saltenvs with gitfs branches. Now I can safely/easily work on things in my
-dev branch and not have to worry about messing things up for people doing real work (not that there are other
-people doing things yet, but now when people do start working - I can experiment in peace).</p>
+<p>First things first, you need to add your git host key to your master&rsquo;s known hosts:
+<a href="https://docs.saltstack.com/en/latest/topics/tutorials/gitfs.html#adding-the-ssh-host-key-to-the-known-hosts-file">https://docs.saltstack.com/en/latest/topics/tutorials/gitfs.html#adding-the-ssh-host-key-to-the-known-hosts-file</a></p>
 
-<p>Soon I&rsquo;ll be doing work with <a href="/posts/proxmox-cloud/">salt-cloud</a>, just 100% less Proxmox and 100% more vSphere.</p>
+<p>At this point you&rsquo;ve created your repos and the branches that you want ot work with. My mapping is pretty simplistic since
+I just use two branches:</br>
+<strong>branch -&gt; saltenv</strong></br>
+master -&gt; base</br>
+dev -&gt; dev</br></p>
 
-<p>Once I start getting the keys to that kingdom, I&rsquo;ll be writing overwrought autounattend.xml files (I don&rsquo;t think
-I&rsquo;ll ever be able to adequately express how much I hate XML - it&rsquo;s the worst). But the nice thing about all of that,
-I&rsquo;ll be able to spin up Windows Server 2012r2 boxes easily.</p>
+<h2 id="actual-configuration-stuff">actual configuration stuff</h2>
+
+<p>So, there are three things that you really need to configure before we&rsquo;re off to the races.
+These are all in your /etc/salt/master</p>
+
+<p>Configuring your backend:</p>
+
+<pre><code class="language-yaml">fileserver_backend:
+  - git
+  - roots
+</code></pre>
+
+<p>Configuring your state repo:</p>
+
+<pre><code class="language-yaml">gitfs_remotes:
+  - ssh://&lt;state git repo address&gt;.git:
+    - pubkey: /root/.ssh/id_rsa.pub
+    - privkey: /root/.ssh/id_rsa
+    - saltenv:
+      - dev:
+        - ref: dev
+      - base:
+        - ref: master
+</code></pre>
+
+<p>In the above config, you configure your saltenv&rsquo;s per remote. I&rsquo;m assuming you you do this over multiple
+backend definitions and use saltstack&rsquo;s merging function. I haven&rsquo;t played around with it, so, don&rsquo;t
+quote me on any of this.</p>
+
+<p>Pillar repo config:</p>
+
+<pre><code class="language-yaml">ext_pillar:
+  - git:
+    - master ssh://&lt;pillar git repo address&gt;.git:
+      - env: base
+      - privkey: /root/.ssh/id_rsa
+      - pubkey: /root/.ssh/id_rsa.pub
+    - dev ssh://&lt;pillar repo address&gt;.git:
+      - privkey: /root/.ssh/id_rsa
+      - pubkey: /root/.ssh/id_rsa.pub
+</code></pre>
+
+<p>If you&rsquo;ve noticed, the pillar definition is a tad different from the state definition. Where in the state, you could define the remote once and then map the
+env to the branch/ref.</p>
+
+<p>For the pillar definition, you need to define the branch/ref and the repo in the same lone, then map the saltenv under it (if you want to map
+saltenvs to branches that are named differently - master/base for me)</p>
+
+<h2 id="conclusion">conclusion</h2>
+
+<p>That&rsquo;s pretty much it. Restart the salt-master and you should have it all set up:</p>
+
+<pre><code>sudo salt '*' state.show_top
+&lt;id&gt;:
+    ----------
+    base:
+       - state
+       - state
+&lt;id2&gt;:
+    ----------
+    dev:
+       - state
+       - state
+</code></pre>
+
+<p>(I removed my company specific info from that output)</p>
+
+<p>I think my next post will be about my mhqa tool and the Saltstack API</p>
 
 </div>
 
@@ -236,18 +292,12 @@ I&rsquo;ll be able to spin up Windows Server 2012r2 boxes easily.</p>
     <nav><ul class="pager">
     
         <li class="previous">
-          <a href="http://www.roylarsen.xyz/posts/mhb/" title="Mobile Heartbeat Era">
+          <a href="http://www.roylarsen.xyz/posts/devops/" title="devops(-ish)">
             <span aria-hidden="true">&larr;</span>Previous
           </a>
         </li>
     
 
-    
-      <li class="next">
-        <a href="http://www.roylarsen.xyz/posts/gitfs/" title="saltstack gitfs">
-            Next <span aria-hidden="true">&rarr;</span>
-        </a>
-      </li>
     
     </ul> </nav>
   
