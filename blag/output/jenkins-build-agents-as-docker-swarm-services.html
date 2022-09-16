@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Jenkins Build Agents as Docker Swarm Services</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <!-- <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+-->
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">blag <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/pages/about.html">about.</a></li>
+                <li><a href="/pages/projects.html">projects.</a></li>
+                <li><a href="/pages/resume.html">resume</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/jenkins-build-agents-as-docker-swarm-services.html" rel="bookmark"
+                   title="Permalink to Jenkins Build Agents as Docker Swarm Services">Jenkins Build Agents as Docker Swarm Services</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2019-09-25T20:07:00-04:00">
+                Wed 25 September 2019
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="/author/roy.html"> roy.</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>Lately I've been working on (re-)learning Jenkins and learning how to use their Pipelines feature.</p>
+<p>We had set up a Jenkins server at MHB to off-load some of the potential work from Bamboo, and also just because we're trying as a DevOps team to move away from Bamboo since we're not too happy with it.</p>
+<hr>
+<h3>Docker Swarm</h3>
+<p>First, let's address the ten thousand pound elephant in the room: Docker Swarm is less cool than Kubernetes.</p>
+<p>For small, easy to set up/manage Docker clusters on-prem, Docker Swarm is fine and perfectly serviceable. The automatic load balancing of published ports to all nodes/manager by default is really slick.</p>
+<p>That being said, not everything is great. For this to work, you need to expose the Docker Swarm API and to do that is fairly ugly. I'm not going to get into securing it, since this is a lab set-up.</p>
+<p>Exposing the swarm in an insecure manner is fairly straight-forward. Find the systemd unit file and add this to the end of the ExecStart line and then restart the service: -H tcp://0.0.0.0:2375</p>
+<h3>Jenkins Service</h3>
+<p>Here's my docker-compose.yml I used to deploy this:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">services</span><span class="p">:</span><span class="w">  </span><span class="nt">jenkins</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jenkins/jenkins</span><span class="w"></span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080:8080</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50000:50000</span><span class="w"></span>
+<span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span><span class="w"></span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/bin/docker:/usr/bin/docker</span><span class="w"></span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;JENKINS_SLAVE_AGENT_PORT=50000&quot;</span><span class="w"></span>
+</code></pre></div>
+
+<p>Beyond the Docker/Swarm stuff, I'm not getting into Jenkins configuration. There's plenty of documentation that exists for general Jenkins configuration and usage.</p>
+<p>I can't stress this isn't a production service. Nothing is persistant.</p>
+<h3>Jenkins Docker Swarm Plug-In</h3>
+<p>The next two sections are the most annoying. The documentation is definitely lacking when it exists.</p>
+<p>To enable Docker Swarm access in Jenkins, you need to install 'Docker Swarm Plugin' and then reload Jenkins.</p>
+<p>That adds a couple things to Jenkins. First and foremost, the Docker Swarm Dashboard:</p>
+<p><img alt="Screenshot of Jenkins console showing Docker Swarm Dashboard" class="kg-image" src="http://www.roylarsen.xyz/content/images/2019/09/Screen-Shot-2019-09-25-at-3.31.31-PM.png"></p>
+<p>Then the more important thing, in Manage Jenkins -&gt; Configure System, at the bottom there's an option for Adding a Cloud:</p>
+<p><img alt="Screenshot of Jenkins console showing configuration for adding Docker Swarm Cloud" class="kg-image" src="http://www.roylarsen.xyz/content/images/2019/09/Screen-Shot-2019-09-25-at-3.34.16-PM.png"></p>
+<p>The configuration for that is pretty straight forward:</p>
+<p><img alt="Ignore the 403's, I obviously changed the FQDNs" class="kg-image" src="http://www.roylarsen.xyz/content/images/2019/09/Screen-Shot-2019-09-25-at-12.15.36-PM.png"></p>
+<p>The 'Test' button is a little flaky from what I've seen, you might need to save your configuration before it will succeed.</p>
+<h3>Jenkins JNLP Agents</h3>
+<p>This was the most interesting part. And by interesting, I mean frustrating. This is where the documetation was really lacking and I happened to find a blog post with a quick explanation of how this all works.</p>
+<p>When you configure your cluster above, you get a button to add templates:</p>
+<p><img alt="" class="kg-image" src="http://www.roylarsen.xyz/content/images/2019/09/Screen-Shot-2019-09-25-at-3.53.10-PM.png"></p>
+<p>Clicking that button gives you this:</p>
+<p><img alt="Overall, very cool, with caveats" class="kg-image" src="http://www.roylarsen.xyz/content/images/2019/09/Screen-Shot-2019-09-25-at-12.13.04-PM.png"></p>
+<p>The label is what you can use for targetting, the image is the Docker Container to pull from. They actually provide a bunch of containers to use: <a href="https://github.com/jenkinsci/jnlp-agents">https://github.com/jenkinsci/jnlp-agents</a></p>
+<p>The docker image is different from the other containers and works as documented/is fine with the example configuration. The general idea on how it's supposed to work is that when the container starts, it does a curl to the Jenkins master and downloads the JNLP agent to ensure there's no version mis-matches.</p>
+<p>As far as I can tell, none of the other agent images work that way. They're all based on their languages/toolsets alpine image and don't have tools like curl or git installed, but in the Dockerfile, Jenkins copies the agent .jar from the base JNLP agent image.</p>
+<p>jnlp-docker command:</p>
+<div class="highlight"><pre><span></span><code>    <span class="nv">sh</span> <span class="o">-</span><span class="nv">cx</span> <span class="nv">curl</span> <span class="o">--</span><span class="k">connect</span><span class="o">-</span><span class="nb">timeout</span> <span class="mi">20</span> <span class="o">--</span><span class="nv">max</span><span class="o">-</span><span class="nv">time</span> <span class="mi">60</span> <span class="o">-</span><span class="nv">o</span> <span class="nv">agent</span>.<span class="nv">jar</span> <span class="mh">$D</span><span class="nv">OCKER_SWARM_PLUGIN_JENKINS_AGENT_JAR_URL</span> <span class="o">&amp;&amp;</span> <span class="nv">java</span> <span class="o">-</span><span class="nv">jar</span> <span class="nv">agent</span>.<span class="nv">jar</span> <span class="o">-</span><span class="nv">jnlpUrl</span> <span class="mh">$D</span><span class="nv">OCKER_SWARM_PLUGIN_JENKINS_AGENT_JNLP_URL</span> <span class="o">-</span><span class="nv">secret</span> <span class="mh">$D</span><span class="nv">OCKER_SWARM_PLUGIN_JENKINS_AGENT_SECRET</span> <span class="o">-</span><span class="nv">noReconnect</span> <span class="o">-</span><span class="nv">workDir</span> <span class="o">/</span><span class="nv">tmp</span>
+</code></pre></div>
+
+<p>jnlp-python command:</p>
+<div class="highlight"><pre><span></span><code>    sh -cx apk -u add git &amp;&amp; java -jar /usr/share/jenkins/agent.jar -jnlpUrl $DOCKER_SWARM_PLUGIN_JENKINS_AGENT_JNLP_URL -secret $DOCKER_SWARM_PLUGIN_JENKINS_AGENT_SECRET -noReconnect -workDir /tmp
+</code></pre></div>
+
+<p>It took a bit of debugging and digging to figure out what was different between the two container images and figure out why my Docker container was working but my Python container wasn't.</p>
+<p>The other big 'gotchas' I ran into is that the container needs to be run as root, or it will fail to launch. For Docker, you also need to make sure you mount /var/run/docker.sock from the host into the container so the Docker client in the container has a Docker daemon to work against.</p>
+<h3>Jenkinsfile</h3>
+<div class="highlight"><pre><span></span><code>    pipeline{
+      agent {
+        label &#39;jenkins-docker&#39;
+      }
+      stages {
+        stage(&#39;Print Test&#39;){
+          agent {
+            label &#39;jenkins-docker&#39;
+          }
+          steps {
+            sh &quot;uname -a&quot;
+            sh &quot;docker run hello-world&quot;
+          }
+        }
+        stage(&#39;Schedule Tests&#39;){
+          agent {
+            label &#39;jenkins-python&#39;
+          }
+          steps{
+            sh &#39;python --version&#39;
+            sh &#39;ls .&#39;
+            sh &#39;printenv&#39;
+          }
+        }
+      }
+    }
+</code></pre></div>
+
+<p>The above Jenkinsfile is a working example where I have the agents for the Pipeline level, and each stage (the job spawns as the first agent, then that spawns the agents for each of the stages).</p>
+<p><img alt="Jobs running, agents in various stages" class="kg-image" src="http://www.roylarsen.xyz/content/images/2019/09/Screen-Shot-2019-09-25-at-2.03.09-PM.png"></p>
+<p>I'm not going to get into setting up builds on API calls, again, that gets into Jenkins documentation that is good and there's plenty of.</p>
+<hr>
+<p>Hopefully this helps. It'll be nice to have this reference for myself in the future.</p>
+</p>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+  <h4>Pages</h4>
+
+  <ul>
+
+    <li ><a href="/pages/about.html">about.</a></li>
+    <li ><a href="/pages/projects.html">projects.</a></li>
+    <li ><a href="/pages/resume.html">resume</a></li>
+  
+
+
+
+
+<nav class="widget">
+  <h4>Social</h4>
+  <ul class="blank">
+    <li><a href="#">You can add links in your config file</a></li>
+    <li><a href="#">Another social link</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+ <!-- <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>-->
+</body>
+</html>

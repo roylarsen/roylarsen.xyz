@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>See you in hell, Nginx</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <!-- <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+-->
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">blag <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/pages/about.html">about.</a></li>
+                <li><a href="/pages/projects.html">projects.</a></li>
+                <li><a href="/pages/resume.html">resume</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/see-you-in-hell-nginx.html" rel="bookmark"
+                   title="Permalink to See you in hell, Nginx">See you in hell, Nginx</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2021-07-06T00:01:00-04:00">
+                Tue 06 July 2021
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="/author/roy.html"> roy.</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>I'm mostly kidding, I'll always love me some Nginx.</p>
+<p>But I did decide to do some needless engineering and migrate to a new Reverse Proxy on my public webserver.</p>
+<p>I had a few needs that I wanted to address and I felt it was time. I wanted to take advantage of more automatic configuration through Docker that some modern reverse proxies use (it's always good to get rid of extra config files), and I also wanted to take advantage of automatic Let's Encrypt renewals (because I've been doing it mostly by hand for too long). I'd also like to do all of this in Docker Compose as well (my set-up is pretty basic and I don't need to deal with the eight million ton gorilla on my off-time).</p>
+<p>I decided to move to Traefik since it seems to handle my (limited) requirements the best.</p>
+<p>Traefik is a Cloud Native Ingress/Reverse Proxy that has built-in support for ACME/Let's Encrypt and is pretty much completely configurable through Labels (for Docker compose) or Annotations (for Kubernetes). The extent of my configuration outside of my compose file is mounting a volume to store the certificates that are requested.</p>
+<p>Is what I'm doing correct? Probably not. Does it work? As far as I can tell. I don't have any issues with things.</p>
+<h3>Core Config</h3>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">traefik</span><span class="p">:</span><span class="w">  </span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;traefik:v2.4&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;traefik&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--log.level=DEBUG&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--api.insecure=false&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--api.dashboard=false&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--providers.docker=true&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--providers.docker.exposedbydefault=false&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--entrypoints.web.address=:80&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--entrypoints.websecure.address=:443&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.xyz.acme.httpchallenge=true&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.xyz.acme.httpchallenge.entrypoint=web&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.xyz.acme.email=my</span><span class="nv"> </span><span class="s">email</span><span class="nv"> </span><span class="s">addy&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.xyz.acme.storage=/letsencrypt/xyz.json&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.tde.acme.httpchallenge=true&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.tde.acme.httpchallenge.entrypoint=web&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.tde.acme.email=my</span><span class="nv"> </span><span class="s">email</span><span class="nv"> </span><span class="s">again&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.tde.acme.storage=/letsencrypt/tde.json&quot;</span><span class="w"></span>
+</code></pre></div>
+
+<p>I left out a bunch of this configuration since it wasn't important to this post.</p>
+<p>Here are some of the more important directives:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--providers.docker.exposedbydefault=false&quot;</span><span class="w"></span>
+</code></pre></div>
+
+<p>I don't want every service exposed, I want to control things on a service-by-service basis. I'll cover that in the next section.</p>
+<div class="highlight"><pre><span></span><code><span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.xyz.acme.httpchallenge=true&quot;</span><span class="w"></span>
+<span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.xyz.acme.httpchallenge.entrypoint=web&quot;</span><span class="w"></span>
+<span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.xyz.acme.email=my</span><span class="nv"> </span><span class="s">email</span><span class="nv"> </span><span class="s">addy&quot;</span><span class="w"></span>
+<span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;--certificatesresolvers.tde.acme.storage=/letsencrypt/xyz.json&quot;</span><span class="w"></span>
+</code></pre></div>
+
+<p>These are for ACME/Let's Encrypt. I'm a fan of the HTTP challenge, it seems like the easiest thing to set up and maintain in my opinion (it's literally just these commands for each domain I want to secure).</p>
+<p>Since the HTTP challenge is over HTTP, we want the entrypoint to be my configured web entrypoint (as opposed to websecure, which is HTTPS).</p>
+<p>The email command is just my email address so when the renewal comes up, I get the notification.</p>
+<p>The storage command is just a mounted folder from the host that Docker is running on in the event something bad happens to the host, like I delete it or something - I can quickly get up and running again. /letsencrypt is a mounted NFS share frrom Digital Ocean that's backed up.</p>
+<h3>Service Config</h3>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">blog</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ghost:3.27-alpine&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">always</span><span class="w"></span>
+<span class="w">      </span><span class="nt">volumes</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/docker/ghost/:/var/lib/ghost/content</span><span class="w"></span>
+<span class="w">      </span><span class="nt">environment</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">url=http://www.roylarsen.xyz</span><span class="w"></span>
+<span class="w">      </span><span class="nt">ports</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;2368:2368&quot;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.enable=true&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog-http.entrypoints=web&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog-http.rule=Host(`roylarsen.xyz`)</span><span class="nv"> </span><span class="s">||</span><span class="nv"> </span><span class="s">Host(`www.roylarsen.xyz`)&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog-http.middlewares=blog-https&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.middlewares.blog-https.redirectscheme.scheme=https&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog.entrypoints=websecure&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog.rule=Host(`roylarsen.xyz`)</span><span class="nv"> </span><span class="s">||</span><span class="nv"> </span><span class="s">Host(`www.roylarsen.xyz`)&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.services.blog.loadbalancer.server.port=2368&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog.tls.certresolver=xyz&quot;</span><span class="w"></span>
+</code></pre></div>
+
+<p>Above is how I'm exposing the container hosting my Blog.</p>
+<div class="highlight"><pre><span></span><code>  &quot;traefik.enable=true&quot;
+</code></pre></div>
+
+<p>This is how to enable/expose each service as mentioned above.</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog-http.entrypoints=web&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog-http.rule=Host(`roylarsen.xyz`)</span><span class="nv"> </span><span class="s">||</span><span class="nv"> </span><span class="s">Host(`www.roylarsen.xyz`)&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog-http.middlewares=blog-https&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.middlewares.blog-https.redirectscheme.scheme=https&quot;</span><span class="w"></span>
+</code></pre></div>
+
+<p>These lines are how to enable the HTTP listener for the domains I want my blog to answer on, and then redirect to HTTPS (since things should only be served over HTTPS, but I don't want errors over HTTP).</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog.entrypoints=websecure&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog.rule=Host(`roylarsen.xyz`)</span><span class="nv"> </span><span class="s">||</span><span class="nv"> </span><span class="s">Host(`www.roylarsen.xyz`)&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.services.blog.loadbalancer.server.port=2368&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;traefik.http.routers.blog.tls.certresolver=xyz&quot;</span><span class="w"></span>
+</code></pre></div>
+
+<p>After we accept the request from the HTTP listener, we need a place to redirect to (also just straight just to HTTPS).</p>
+<p>The biggest differences between the two are the loadbalancer forward and the certresolver.</p>
+<p>The loadbalancer is just where requests are sent on the backend, and then the certresolver is just what resolver to pull the certificate from in the Traefik config from the previous section.</p>
+<h3 id="that-s-it">That's It</h3>
+<p>Seriously. It was pretty easy overall to be able to swap from Nginx to Traefik (except when I forgot the url for the admin panel to write this, heh), and now I don't have to think about my cert renewals for the rest of the life of this server. It's all very exciting.</p>
+</p>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+  <h4>Pages</h4>
+
+  <ul>
+
+    <li ><a href="/pages/about.html">about.</a></li>
+    <li ><a href="/pages/projects.html">projects.</a></li>
+    <li ><a href="/pages/resume.html">resume</a></li>
+  
+
+
+
+
+<nav class="widget">
+  <h4>Social</h4>
+  <ul class="blank">
+    <li><a href="#">You can add links in your config file</a></li>
+    <li><a href="#">Another social link</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+ <!-- <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>-->
+</body>
+</html>
