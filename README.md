@@ -11,6 +11,7 @@ The goal of this is to eventually have this be automated and deployed to Digital
   * Migrate from Namecheap to DigitalOcean?
 * IaC for roylarsen.xyz and tastefuldinosaurerotica.com
   * Terraform is the obvious answer, maybe eval Pulumi eventually?
+  * Testing in PRs for Terraform
 * Github Actions to Build and deploy blag to roylarsen.xyz
 * Staging/Prod for blag?
 * Gitea to replace Github?
@@ -23,3 +24,6 @@ The goal of this is to eventually have this be automated and deployed to Digital
 * blag
   * Content for [www.roylarsen.xyz](www.roylarsen.xyz)
   * Uses Python and [Pelican](https://getpelican.com/) for site generation
+* iac
+  * Not created
+  * Will contain IaC for repo
