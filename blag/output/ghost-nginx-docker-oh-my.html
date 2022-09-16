@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Ghost + NGINX + Docker, OH MY</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <!-- <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+-->
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">blag <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/pages/about.html">about.</a></li>
+                <li><a href="/pages/projects.html">projects.</a></li>
+                <li><a href="/pages/resume.html">resume</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/ghost-nginx-docker-oh-my.html" rel="bookmark"
+                   title="Permalink to Ghost + NGINX + Docker, OH MY">Ghost + NGINX + Docker, OH MY</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2018-07-10T04:47:00-04:00">
+                Tue 10 July 2018
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="/author/roy.html"> roy.</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <!--kg-card-begin: markdown-->
+<p><img alt="Ghost + NGINX + Docker, OH MY" src="http://www.roylarsen.xyz/content/images/2018/07/It-s_a_mystery.png"></p>
+<p>So, I recently decided to redo my website and this is a active work in progress.</p>
+</p>
+<p>Enter:</p>
+</p>
+<h3>DOCKER</h3>
+</p>
+<p>~WHAAAAAA~</p>
+</p>
+<p>I've been using this as an excuse to finally get my shit together and actually learn Docker.</p>
+</p>
+<p>Up until now I've done basic docker work (docker run hello-world, etc...), but I haven't done anything particularly serious with it.</p>
+</p>
+<p>I'm not going to get into details and explain the internals and how docker works. I'm not super great at that, plus, there ware way smarter people who've beaten that horse to death.</p>
+</p>
+<h3 id="puttingittogether">Putting it together</h3>
+</p>
+<p>So, after some furious research (aka, typing the words "docker", "ghost", and "blog" into google) I found their official docker image.</p>
+</p>
+<p>I then went and set up a new VM in DigitalOcean to act as my docker host with a external volume to hold all the persistent data (blog DB, config info for nginx, etc...) so that all can be easily backed up and I don't have to worry about it.</p>
+</p>
+<p>At first, my set-up was kinda clunky. I was building containers and running those with all the static content (tastefuldinosaurerotica.com, keybase challenge) pre-baked into the container. For simple set-ups that don't change - this is fine for the most part.</p>
+</p>
+<p>Here was the initial Dockerfile I was using to run nginx:</p>
+</p>
+<div class="highlight"><pre><span></span><code>FROM nginxMAINTAINER Roy LarsenCOPY nginx.conf /etc/nginx/nginx.confCOPY keybase.txt /usr/share/nginx/htmlCOPY tde/* /usr/share/nginx/html/tde/
+</code></pre></div>
+
+</p>
+<p>See? Not very exciting, not very portable/maintainable since now I need to maintain my own container that only exists on this one server.</p>
+</p>
+<p>Part of the portability, maintainability problem was was made this blog possible: a container running ghost.</p>
+</p>
+<p>So, now I have two containers that are essentially running the default software and I'm re-building at least one of them.</p>
+</p>
+<h3 id="entercompose">Enter Compose:</h3>
+</p>
+<p>So, the first big change that I made was create a symlink on the host to be what the containers expect for their persistent storage instead of building the containers with the static content inside of them.</p>
+</p>
+<p>Here's how I'm now defining my containers:</p>
+</p>
+<div class="highlight"><pre><span></span><code><span class="n">version</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.2&quot;</span><span class="n">services</span><span class="p">:</span><span class="w">        </span><span class="n">nginx</span><span class="p">:</span><span class="w">               </span><span class="n">image</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nginx:latest&quot;</span><span class="w">               </span><span class="n">ports</span><span class="p">:</span><span class="w">                        </span><span class="o">-</span><span class="w"> </span><span class="s2">&quot;80:80&quot;</span><span class="w">                        </span><span class="o">-</span><span class="w"> </span><span class="s2">&quot;443:443&quot;</span><span class="w">               </span><span class="n">volumes</span><span class="p">:</span><span class="w">                       </span><span class="o">-</span><span class="w"> </span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">conf</span><span class="o">/</span><span class="n">nginx</span><span class="o">.</span><span class="n">conf</span><span class="p">:</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">nginx</span><span class="o">.</span><span class="n">conf</span><span class="w">                       </span><span class="o">-</span><span class="w"> </span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">www</span><span class="p">:</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">html</span><span class="w">               </span><span class="n">networks</span><span class="p">:</span><span class="w">                        </span><span class="o">-</span><span class="w"> </span><span class="n">default</span><span class="w">               </span><span class="n">links</span><span class="p">:</span><span class="w">                       </span><span class="o">-</span><span class="w"> </span><span class="s2">&quot;blog&quot;</span><span class="w">        </span><span class="n">blog</span><span class="p">:</span><span class="w">                </span><span class="n">image</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ghost:1-alpine&quot;</span><span class="w">                </span><span class="n">volumes</span><span class="p">:</span><span class="w">                        </span><span class="o">-</span><span class="w"> </span><span class="o">/</span><span class="n">docker</span><span class="o">/</span><span class="n">ghost</span><span class="o">/</span><span class="p">:</span><span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">ghost</span><span class="o">/</span><span class="n">content</span><span class="w">                </span><span class="n">environment</span><span class="p">:</span><span class="w">                        </span><span class="o">-</span><span class="w"> </span><span class="n">URL</span><span class="o">=</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">roylarsen</span><span class="o">.</span><span class="n">xyz</span><span class="w">                </span><span class="n">networks</span><span class="p">:</span><span class="w">                        </span><span class="o">-</span><span class="w"> </span><span class="n">defaultnetworks</span><span class="p">:</span><span class="w">        </span><span class="n">default</span><span class="p">:</span><span class="w">                </span><span class="n">external</span><span class="p">:</span><span class="w">                        </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="n">web</span><span class="w"></span>
+</code></pre></div>
+
+</p>
+<p>When that file is in place, all you need to do is sudo docker-compose up -d from that directory and you're good to go.</p>
+</p>
+<p>So, the nice thing about this is that when I want to tackle that first bullet point in Future, I can just have the container hosting certbot place the certs into the volume mapped to /docker/nginx/conf/certs and that will be that.</p>
+</p>
+<p>For portability, as long as the appropriate drive is mapped and symlink is created - I can always spin up these containers the same way every time. It's pretty sweet.</p>
+</p>
+<h3>Future:</h3>
+</p>
+<ul>
+<li>~~Let's Encrypt for doing SSL.~~ Ha, notice how this is served over HTTPS? Need to write that article</li>
+<li>~~<a href="https://mastodon.social/">https://mastodon.social/</a>~~ Ha, <a href="https://social.tastefuldinosaurerotica.com">https://social.tastefuldinosaurerotica.com</a>. Need to write that up</li>
+<li>Separating internal and external container networks.</li>
+<li>Ansible to prep the host server</li>
+<li>~~Get more serious about Docker on Windows (I know: boo, hiss, etc...)~~ Ha, I wrote this</li>
+</ul>
+</p>
+<!--kg-card-end: markdown-->
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+  <h4>Pages</h4>
+
+  <ul>
+
+    <li ><a href="/pages/about.html">about.</a></li>
+    <li ><a href="/pages/projects.html">projects.</a></li>
+    <li ><a href="/pages/resume.html">resume</a></li>
+  
+
+
+
+
+<nav class="widget">
+  <h4>Social</h4>
+  <ul class="blank">
+    <li><a href="#">You can add links in your config file</a></li>
+    <li><a href="#">Another social link</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+ <!-- <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>-->
+</body>
+</html>
