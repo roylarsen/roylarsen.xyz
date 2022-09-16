@@ -6,7 +6,7 @@ The goal of this is to eventually have this be automated and deployed to Digital
 
 * Setup Digital Ocean infrastructure for static site
   * Setup Access Key(s) for IaC
-    * Digital Ocean Key
+    * ~~Digital Ocean Key~~
     * Namecheap Key
   * Migrate from Namecheap to DigitalOcean?
 * IaC for roylarsen.xyz and tastefuldinosaurerotica.com
