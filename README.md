@@ -25,5 +25,5 @@ The goal of this is to eventually have this be automated and deployed to Digital
   * Content for [www.roylarsen.xyz](www.roylarsen.xyz)
   * Uses Python and [Pelican](https://getpelican.com/) for site generation
 * iac
-  * Not created
-  * Will contain IaC for repo
+  * Code for deploying Infrastructure
+  * [Docs Here](iac/README.md)
