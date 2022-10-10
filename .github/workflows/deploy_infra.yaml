@@ -1,0 +1,16 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "iac/**"
+
+jobs:
+  run-terraform:
+    name: Run Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: run
+        run: echo "bleh"
