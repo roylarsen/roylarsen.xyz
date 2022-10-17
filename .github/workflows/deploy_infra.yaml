@@ -12,5 +12,9 @@ jobs:
     name: Run Terraform
     runs-on: ubuntu-latest
     steps:
-      - name: run
-        run: echo "bleh"
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_TOKEN }}
+      - name: Test doctl
+        run: doctl -h
