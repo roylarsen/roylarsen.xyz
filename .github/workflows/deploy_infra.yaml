@@ -18,3 +18,5 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_TOKEN }}
       - name: Test doctl
         run: doctl -h
+      - name: Create Core Project
+        run: doctl projects create --name CORE --purpose "DO Core Management"
