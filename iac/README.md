@@ -4,6 +4,8 @@
 
 ### Digital Ocean
 
+Each Project/Site will be hosted within it's own DO Project. Biggest issue currently is creating DO Space.
+
 #### PROJECT: CORE
 
 This project will be for some of the core infrastructure for my DO account. The main resource will be a S3 Compatible object store.
