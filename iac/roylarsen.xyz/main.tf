@@ -14,7 +14,7 @@ terraform {
   }
 }
 
-resource "digitalocean_project" "roylarsen.xyz" {
+resource "digitalocean_project" "roylarsen_xyz" {
   name        = "roylarsen.xyz"
   description = "Project for Holding *.roylarsen.xyz resources"
   purpose     = "roylarsen.xyz"
