@@ -8,8 +8,8 @@ on:
       - "iac/**"
 
 jobs:
-  run-terraform:
-    name: Run Terraform
+  create-infrastructure:
+    name: Create Core Infra
     runs-on: ubuntu-latest
     steps:
       - name: Install doctl
