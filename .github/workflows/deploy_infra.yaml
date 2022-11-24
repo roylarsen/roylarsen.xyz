@@ -8,7 +8,7 @@ on:
       - "iac/**"
 
 jobs:
-  create-infrastructure:
+  create-core-infrastructure:
     name: Create Core Infra
     runs-on: ubuntu-latest
     steps:
@@ -20,3 +20,24 @@ jobs:
         run: doctl -h
       - name: Create Core Project
         run: doctl projects create --name CORE --purpose "DO Core Management"
+  create-roylarsenxyz-infrastrucutre:  
+    name: Create roylarsen.xyz
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.10
+      - name: Terraform init
+        run: terraform init
+        working-directory: iac/roylarsen.xyz/
+        env:
+          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+      - name: Terraform Apply
+        run: terraform apply --auto-approve
+        working-directory: iac/roylarsen.xyz/
+        env:
+          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
