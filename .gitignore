@@ -9,5 +9,5 @@
 **/.venv/*
 
 # blag stuff
-**/output/*
+#**/output/*
 
