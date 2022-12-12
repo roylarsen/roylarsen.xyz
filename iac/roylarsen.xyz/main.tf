@@ -20,3 +20,25 @@ resource "digitalocean_project" "roylarsen_xyz" {
   purpose     = "roylarsen.xyz"
   environment = "Development"
 }
+
+resource "digitalocean_app" "blag" {
+    spec {
+      name   = "blag.roylarsen.xyz"
+      region = "nyc3"
+
+      static_site {
+        name          = "blog-content"
+        output_dir    = "/blag/output"
+
+        github {
+          repo_clone_url = "roylarsen/roylarsen.xyz"
+          branch         = "main"
+          deploy_on_push = false
+        }
+
+        route {
+          path = "/"
+        }
+      }
+    }
+}
