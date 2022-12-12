@@ -9,7 +9,7 @@ terraform {
   required_providers {
     digitalocean = {
       source = "digitalocean/digitalocean"
-      version = "~> 2.0"
+      version = "~> 2.25"
     }
   }
 }
@@ -31,7 +31,7 @@ resource "digitalocean_app" "blag" {
         output_dir    = "/blag/output"
 
         github {
-          repo_clone_url = "roylarsen/roylarsen.xyz"
+          repo           = "roylarsen/roylarsen.xyz"
           branch         = "main"
           deploy_on_push = false
         }
