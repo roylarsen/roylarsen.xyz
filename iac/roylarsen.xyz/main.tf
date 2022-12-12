@@ -23,7 +23,7 @@ resource "digitalocean_project" "roylarsen_xyz" {
 
 resource "digitalocean_app" "blag" {
     spec {
-      name   = "blagDOTroylarsenDOTxyz"
+      name   = "blagapp"
       region = "nyc3"
 
       static_site {
