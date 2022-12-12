@@ -36,7 +36,7 @@ resource "digitalocean_app" "blag" {
           deploy_on_push = false
         }
 
-        route {
+        routes {
           path = "/"
         }
       }
