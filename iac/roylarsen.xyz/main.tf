@@ -28,7 +28,7 @@ resource "digitalocean_app" "blag" {
 
       static_site {
         name          = "blog-content"
-        output_dir    = "/blag/output"
+        source_dir    = "/blag/output"
 
         github {
           repo           = "roylarsen/roylarsen.xyz"
