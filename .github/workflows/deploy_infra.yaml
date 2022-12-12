@@ -31,5 +31,8 @@ jobs:
         working-directory: iac/roylarsen.xyz/
         env:
           DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+          NAMECHEAP_USER_NAME: ${{ secrets.NAMECHEAP_USERNAME }} 
+          NAMECHEAP_API_USER: ${{ secrets.NAMECHEAP_USERNAME }}
+          NAMECHEAP_API_KEY: ${{ secrets.NAMECHEAP_API_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
