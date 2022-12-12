@@ -11,6 +11,10 @@ terraform {
       source = "digitalocean/digitalocean"
       version = "~> 2.25"
     }
+    namecheap = {
+      source = "namecheap/namecheap"
+      version = "~> 2.1.0"
+    }
   }
 }
 
@@ -41,4 +45,16 @@ resource "digitalocean_app" "blag" {
         }
       }
     }
+}
+
+resource "namecheap_domain_records" "roylarsen-xyz" {
+  domain = "roylarsen.xyz"
+  mode = "MERGE"
+  email_type = "NONE"
+
+  record {
+    hostname = "blog"
+    type = "CNAME"
+    address = digitalocean_app.blag.live_url
+  }
 }
