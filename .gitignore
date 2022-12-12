@@ -4,3 +4,6 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+# python stuff
+**/.venv/*
