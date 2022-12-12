@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Proxmox + salt-cloud = <kinda3</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <!-- <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+-->
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">blag <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/pages/about.html">about.</a></li>
+                <li><a href="/pages/projects.html">projects.</a></li>
+                <li><a href="/pages/resume.html">resume</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/proxmox-salt-cloud-kinda3.html" rel="bookmark"
+                   title="Permalink to Proxmox + salt-cloud = <kinda3">Proxmox + salt-cloud = &#60;kinda3</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2017-06-17T03:53:00-04:00">
+                Sat 17 June 2017
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="/author/roy.html"> roy.</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <!--kg-card-begin: markdown-->
+
+<p>So, I've been working on getting salt-cloud playing nicely with Proxmox. The biggest issue I've seen so far is within salt-cloud's proxmox driver is more of a limitation within proxmox itself.</p>
+</p>
+<p>Unless you statically assign you IP address, you're not going to see your IP address in the GUI or in the standard salt-cloud query to your hypervisor. The proxmox driver also allows your to query DNS for  </p>
+<p>the IP address of your machine.</p>
+</p>
+<p>Neither of those really work for me at home, since I like to have my VMs get an address from DHCP, then convert that to a static reservation when I'm sure that VM will stick around.</p>
+</p>
+<p>My prefered solution would be to pull the IP address straight from the hypervisor, which would make my life so much easier. That's doable when you're using the VMWare/ESXi driver when the agent is  </p>
+<p>installed, I figure that there should be a way of handling that within Proxmox.</p>
+</p>
+<p>Enter the <a href="https://pve.proxmox.com/wiki/Qemu-guest-agent">QEMU Guest Agent</a></p>
+</p>
+<p>As it turns out, installing this is pretty easy. You install the service within your target VM, set the Agent option under hardware in the PVE web GUI to 'On', and then you reboot the VM.</p>
+</p>
+<p>Boom. Easy.</p>
+</p>
+<p>At this point you have better access to the guest through the API (either through the web or pvesh command on the host).</p>
+</p>
+<p>Now I'm not going to do into details about how long it took me to dig through the PVE API, but I found what I want.</p>
+</p>
+<p><a href="http://pve.proxmox.com/pve-docs/api-viewer/index.html">PVE APIv2 Docs!</a></p>
+</p>
+<p>Dig down to nodes/{node}/qemu/{vmid}/agent - That's the API commands for querying the guest agent directly. Not a lot is implemented, however, network-get-interfaces looks promising.</p>
+</p>
+<p>(spoiler: that's what we want)</p>
+</p>
+<p>So playing around with pvesh on my VM host gets me to this command:</p>
+</p>
+<div class="highlight"><pre><span></span><code>pvesh create nodes/technodrome/qemu/101/agent -command network-get-interfaces(yes, my main node name is a reference to TMNT)
+</code></pre></div>
+
+</p>
+<p>That returns a JSON response with all the network information on the interfaces on your guest:</p>
+</p>
+<div class="highlight"><pre><span></span><code>pvesh create nodes/technodrome/qemu/101/agent -command network-get-interfaces200 OK{  &quot;result&quot; : [    {      &quot;hardware-address&quot; : &quot;00:00:00:00:00:00&quot;,      &quot;ip-addresses&quot; : [        {          &quot;ip-address&quot; : &quot;127.0.0.1&quot;,          &quot;ip-address-type&quot; : &quot;ipv4&quot;,          &quot;prefix&quot; : 8        },        {          &quot;ip-address&quot; : &quot;::1&quot;,          &quot;ip-address-type&quot; : &quot;ipv6&quot;,          &quot;prefix&quot; : 128        }      ],      &quot;name&quot; : &quot;lo&quot;    },    {      &quot;hardware-address&quot; : &quot;&lt;MAC address&gt;&quot;,      &quot;ip-addresses&quot; : [        {          &quot;ip-address&quot; : &quot;&lt;ipv4 address&quot;,          &quot;ip-address-type&quot; : &quot;ipv4&quot;,          &quot;prefix&quot; : 24        },        {          &quot;ip-address&quot; : &quot;&lt;ipv6 address&gt;&quot;,          &quot;ip-address-type&quot; : &quot;ipv6&quot;,          &quot;prefix&quot; : 64        }      ],      &quot;name&quot; : &quot;eth0&quot;    }  ]}sanitised so you can&#39;t see my internal numbering scheme
+</code></pre></div>
+
+</p>
+<h3 id="ohshit">OH SHIT.</h3>
+</p>
+<p>So, now the biggest obstacles I have are as follow:</p>
+</p>
+<ul>
+<li>
+<p>Getting what I found into: <a href="https://github.com/saltstack/salt/blob/develop/salt/cloud/clouds/proxmox.py">https://github.com/saltstack/salt/blob/develop/salt/cloud/clouds/proxmox.py</a>
+    </p></p>
+<ul>
+<li>Need to create a function <code>wait_for_ip_address()</code></li>
+<li>Need to add some options to the Proxmox profile to handle being able to use DHCP</li>
+</ul>
+<p></p>
+-   Support having multiple interfaces that aren't lo
+-   Get patch accepted into salt-cloud
+</p></p>
+<ul>
+<li>(Or I just keep it for myself)</li>
+</ul>
+</p>
+</li>
+</ul>
+</p>
+<h3 id="updatenerds">UPDATE, NERDS</h3>
+</p>
+<p>So, as I've been working on the code for my patch to the proxmox provider, I was running some other solutions to my problem in my head.</p>
+</p>
+<p>Enter: <a href="https://cloudinit.readthedocs.io/en/latest/">cloud-init</a></p>
+</p>
+<p>What I've been realizing that I can do is use cloud-init to run a python scipt to set the hostname of the box.</p>
+</p>
+<ul>
+<li>
+<p>Get the VMID of the VM
+    </p></p>
+<ul>
+<li>possibly use the MAC address as my unique identifier?</li>
+</ul>
+<p></p>
+-   Use VMID to call /qemu/{VMID}/status/current
+-   Potentially use a shell script instead of a Python script to lower the amount of dependencies used</p>
+</li>
+</ul>
+</p>
+<h3 id="update2nerds">Update 2, nerds</h3>
+</p>
+<p>I think at this point I am going to eventually end up with the cloud-init solution. I think it's the easiest to support and it's <a href="http://cloudinit.readthedocs.io/en/latest/topics/datasources/digitalocean.html">really</a> <a href="http://cloudinit.readthedocs.io/en/latest/topics/datasources/ec2.html">interesting</a> <a href="http://cloudinit.readthedocs.io/en/latest/topics/datasources/configdrive.html">what</a> <a href="http://cloudinit.readthedocs.io/en/latest/topics/datasources/azure.html">other</a>  </p>
+<p>clouds do.</p>
+</p>
+<p>I'm going to write my patch for the Proxmox provider, but probably just keep that fork as an example in my github account as something to show off. It'll be a fun exercise, but I don't see it as supportable  </p>
+<p>beyond a stopgap until I get cloud-init working.</p>
+</p>
+<p>Plus, I'm pretty sure cloud-init will be a better solution for when I want to experiment with building LXC containers.</p>
+</p>
+<h3 id="update3nerds">Update 3, nerds</h3>
+</p>
+<p>So, I've been neglecting my blog because I'm a dummy.</p>
+</p>
+<p>I've actually written my patch for the proxmox provider and have been using it in my homelab for a while at this point.</p>
+</p>
+<p>It was pretty cool, I got to learn how to do list comprehensions and now I can easily spin up new VMs in my lab!</p>
+</p>
+<!--kg-card-end: markdown-->
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+  <h4>Pages</h4>
+
+  <ul>
+
+    <li ><a href="/pages/about.html">about.</a></li>
+    <li ><a href="/pages/projects.html">projects.</a></li>
+    <li ><a href="/pages/resume.html">resume</a></li>
+  
+
+
+
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+ <!-- <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>-->
+</body>
+</html>
