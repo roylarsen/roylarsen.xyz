@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Microsoft OpenHack - Day 1</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <!-- <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+-->
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">blag <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/pages/about.html">about.</a></li>
+                <li><a href="/pages/projects.html">projects.</a></li>
+                <li><a href="/pages/resume.html">resume</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/microsoft-openhack-day-1.html" rel="bookmark"
+                   title="Permalink to Microsoft OpenHack - Day 1">Microsoft OpenHack - Day 1</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2018-11-28T06:02:00-05:00">
+                Wed 28 November 2018
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="/author/roy.html"> roy.</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <!--kg-card-begin: markdown-->
+
+<p>Lions, tigers, and Azure DevOps. Oh my!</p>
+</p>
+<p>Where to begin?</p>
+</p>
+<p>Recently my boss emailed myself and a couple other engineers at Mobile Heartbeat about an event Microsoft was running about learning Azure, Azure Kubernetes (k8s) Service, and Azure DevOps (silly name for an actually pretty cool project). Naturally, I took him up on the offer because it was free and was a training on stuff I'm interested in/not well versed in.</p>
+</p>
+<p>Alright, now the fun bit.</p>
+</p>
+<p>The task:</p>
+</p>
+<p><img alt="Screen-Shot-2018-11-27-at-9.28.57-AM" src="http://www.roylarsen.xyz/content/images/2018/11/Screen-Shot-2018-11-27-at-9.28.57-AM.png"></p>
+</p>
+<p>That Architecture, but allowing for automatic rolling/zero downtime deployments of the 4 API microservices within the k8s cluster.</p>
+</p>
+<p>The event is setup in a pretty interesting way. The way that Microsoft set it up is as a series of challenges that build on the successes of the previous challenges.</p>
+</p>
+<p>When we got there this morning, they assigned everyone into different teams and after some moving me around, I settled into Team 11 with my first cup of coffee.</p>
+</p>
+<p>Challenge 1)</p>
+</p>
+<ul>
+<li>"In order to have a successful DevOps strategy, your team needs to have a plan."</li>
+</ul>
+</p>
+<p>The first challenge of the day, we needed to come up with a plan of how we want to run our team. Pretty basic, but it gave us a chance to work out how we like to work.</p>
+</p>
+<p>For the most part we decided that between tickets and the Wiki within Azure DevOps and the fact that we're sitting face to face, we don't need to worry about also adding some chat software into the mix.</p>
+</p>
+<p>Challenge 2)</p>
+</p>
+<ul>
+<li>Show to your coach that you can link a work item with the associated code changes and the artifacts that have been generated.</li>
+<li>Demonstrate to your coach that you have implemented a policy to prevent any unreviewed code changes from being committed to master.</li>
+<li>On a successful build, demonstrate that the updated version of the container is pushed to a container registry.</li>
+</ul>
+</p>
+<p>From here we created stories for each of these tasks, and then sub-divided them into actionable tasks.</p>
+</p>
+<p>The first thing we did was import the git repository from Github (<a href="https://github.com/Azure-Samples/openhack-devops-team">https://github.com/Azure-Samples/openhack-devops-team</a>), into Azure DevOps.</p>
+</p>
+<p>That allowed our team member working on task 2 to create the appropriate policies to institute mandatory code reviews where we need two reviewers that aren't the person who created the PR.</p>
+</p>
+<p>The rest of us tackled task 3. We broke that into feature tickets for each of the API services.</p>
+</p>
+<p>We were able to create build pipelines for each of the APIs.</p>
+</p>
+<p>Here's the Java Pipeline I worked on for example (there's an extra task, but I'll cover that in 3)</p>
+</p>
+<p><img alt="Screen-Shot-2018-11-28-at-12.56.03-AM" src="http://www.roylarsen.xyz/content/images/2018/11/Screen-Shot-2018-11-28-at-12.56.03-AM.png"></p>
+</p>
+<p>On approved PR, the pipeline is kicked off for API folders that there's changes.</p>
+</p>
+<p><img alt="Screen-Shot-2018-11-28-at-1.01.53-AM" src="http://www.roylarsen.xyz/content/images/2018/11/Screen-Shot-2018-11-28-at-1.01.53-AM.png"></p>
+</p>
+<p>Once these items were completed and we had containers building and being pushed to the correct repositories (there was a little confusion that was quickly cleared up), we then quickly took care of task 1 by putting everything together.</p>
+</p>
+<p>We created a couple tasks to run end to end tests of our new pipelines.</p>
+</p>
+<ul>
+<li>Create a ticket and associated branch from master</li>
+<li>Make a change in our branch and create a PR to master</li>
+<li>Get the required amount of approvals (2 minimum, can't be the person who created the PR) which then kicked off the pipeline</li>
+<li>As soon as Azure DevOps saw the PR had the correct approvals, the build was automatically started</li>
+</ul>
+</p>
+<p>Challenge 3)</p>
+</p>
+<ul>
+<li>
+</p>
+<p>You are expected to improve the pipeline that you have started to build in the previous challenge by validating the functionality of at least one part of the code for the APIs of your application that you have selected.</p>
+<p></p>
+-   </p></p>
+<p>In the event that a test fail, a bug shall be created automatically and added in the backlog and the submitted changes are not integrated in your code.</p>
+</p>
+</li>
+</ul>
+</p>
+<p>When the second challenge was accepted by our coach, we got to work on 3. Overall, it's not that complicated of a challenge - but when you're sitting at a table of non-developers, unit tests become tricky.</p>
+</p>
+<p>So, first thing I did was create stories for the two main tasks and start splitting those into features and issues.</p>
+</p>
+<p>Luckily, the APIs all already had their test suites written and had jobs in their various build systems ready to go, so all we had to do was add a task before the docker image build.</p>
+</p>
+<p>The hardest one to get going was the C# project, because each of the APIs had documentation in the README.md about how tests are run - that project didn't.</p>
+</p>
+<p>After some trial and error, we had that pipeline ready to go and it was 4:30 and time to go.</p>
+</p>
+<p>Tomorrow is Day 2 and we're starting off strong and getting task 3 finished.</p>
+</p>
+<!--kg-card-end: markdown-->
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+  <h4>Pages</h4>
+
+  <ul>
+
+    <li ><a href="/pages/about.html">about.</a></li>
+    <li ><a href="/pages/projects.html">projects.</a></li>
+    <li ><a href="/pages/resume.html">resume</a></li>
+  
+
+
+
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+ <!-- <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>-->
+</body>
+</html>

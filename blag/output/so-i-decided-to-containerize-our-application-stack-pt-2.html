@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>So I decided to containerize our application stack... Pt 2</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <!-- <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+-->
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">blag <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/pages/about.html">about.</a></li>
+                <li><a href="/pages/projects.html">projects.</a></li>
+                <li><a href="/pages/resume.html">resume</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/so-i-decided-to-containerize-our-application-stack-pt-2.html" rel="bookmark"
+                   title="Permalink to So I decided to containerize our application stack... Pt 2">So I decided to containerize our application stack... Pt 2</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2019-06-12T04:01:00-04:00">
+                Wed 12 June 2019
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="/author/roy.html"> roy.</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <!--kg-card-begin: markdown-->
+
+<p>Here's the story so far:</p>
+</p>
+<ul>
+<li><a href="https://www.roylarsen.xyz/so-i-decided-to-containerize-our-application-stack/">Part 1</a></li>
+</ul>
+</p>
+<h2 id="beginningtoworkthroughmylist">Beginning to work through my list</h2>
+</p>
+<p>In the last post I came up with a list of tasks that I need to work through so that we can do things in Docker "correctly".</p>
+</p>
+<p>("Correctly" meaning, as close to "dev clones the repo, fills in their .env, then runs docker-compose")</p>
+</p>
+<h3 id="gettingsqlservertoworkindockeronlinux">Getting SQL Server to work in Docker on Linux</h3>
+</p>
+<p>It's funny, this was actually pretty straight-forward. Faults aside over the years, Microsoft has been putting a lot of effort into building compatibility from their flagship products and also transitioning from a traditional software company to a platform company, and transitioning a lot of their major software to either being a SaaS offering (Outlook/O365) or making it run on Linux (SQL Server, Powershell) as well.</p>
+</p>
+<p>Running SQL Server is pretty easy, MS has good guides on SQL Server running on Linux on technet: <a href="https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-2017&amp;pivots=cs1-bash">https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-2017&amp;pivots=cs1-bash</a></p>
+</p>
+<p>It's super easy and all you really need to do is provide the password for the SA account as an environment variable.</p>
+</p>
+<h3 id="runningflywaymigrations">Running Flyway migrations</h3>
+</p>
+<p>Everything's easier when the vendor makes docker images easily available and usable.</p>
+</p>
+<p>Now, this is still a little tricky, because while the repo that has all our application code also has all our migrations, it's more than one migration and the flyway container comes expecting to be run via <code>docker run</code> and just providing arguments to the migrate command.</p>
+</p>
+<p>That doesn't really work for me.</p>
+</p>
+<p>There's a couple of issues that I needed to overcome to get this service in my compose file working:</p>
+</p>
+<ol>
+<li>I need the two databases the application expects</li>
+<li>I need to run the two migrations for our databases</li>
+</ol>
+</p>
+<p>By the time this service starts/runs, all I have is a bare SQL Server instance with no databases or accounts other than the default ones.</p>
+</p>
+<p>Normally, to create the two databases that our application needs, I just use sqlcmd or Invoke-SQLCmd, but this container doesn't have the first command and these are Linux containers and not Windows - so no Invoke-SQLCmd.</p>
+</p>
+<p>I started thinking about how (since I'm already using it in this container) I could abuse Flyway - since all it does is run specially named .sql files.</p>
+</p>
+<p>So, the first thing I did was create a new migration to do the initial Database creation. It was pretty straightforward since in the repo, there was already a script to create the base databases, I just needed to name it correctly (eg, VO__createDB.sql, and write the config file for this migration)</p>
+</p>
+<p>However, since this adds to the complexity of the problem, I need to update the above list:</p>
+</p>
+<ol>
+<li>I need the two databases the application expects</li>
+<li>I need to run the ~~two~~ three migrations for our databases</li>
+</ol>
+</p>
+<p>Luckily, point two are why shell scripts exist.</p>
+</p>
+<p>I threw together a <a href="https://gist.github.com/roylarsen/80eb8c536b1d391c0a18992a4b669263">really basic shell script</a> to run three flyway migrations. It's nothing fancy, but at the end of the day, it didn't need to be.</p>
+</p>
+<p>Now, the fun thing was trying to figure out how to overwrite the container's command and inject my shell script.</p>
+</p>
+<p>The nice thing is that Compose gives you exactly that.</p>
+</p>
+<div class="highlight"><pre><span></span><code>entrypoint: /flyway/mh-scripts/mh-run-migrations.sh
+</code></pre></div>
+
+</p>
+<p>The 'entrypoint' option just overrides the CMD of the container. In my case, giving me a one off container that runs the migrations.</p>
+</p>
+<h3 id="buildingandrunningthetomcatapplication">Building and running the Tomcat Application</h3>
+</p>
+<p>First and foremost, shoutout to <a href="https://twitter.com/samstelfox">Sammy</a> for telling me about this.</p>
+</p>
+<p>My goal was to be able to have one Dockerfile to handle doing both the build, and also running the application.</p>
+</p>
+<p>Luckily, these days Dockerfiles have multi-stage builds (thanks for pointing that out, Sammy).</p>
+</p>
+<p><a href="https://gist.github.com/roylarsen/55e47e2e3b9e9fab2cf8be4f71955751">Dockerfile</a>!</p>
+</p>
+<p>The important parts of this are the following:</p>
+</p>
+<div class="highlight"><pre><span></span><code>FROM gradle:5.4-jdk8 as build
+</code></pre></div>
+
+</p>
+<p>The first FROM line sets up the stage to copy artifacts from. In my instance, I can refer to it as 'build'.</p>
+</p>
+<p>The next important thing is the change to the COPY command.</p>
+</p>
+<div class="highlight"><pre><span></span><code>COPY --from=build /home/gradle/project/heartbeatWeb/build/libs/heartbeat.war /usr/local/tomcat/webapps
+</code></pre></div>
+
+</p>
+<p>The important part of this is the --from= argument. Normally, you use COPY to copy from the host to the container. When using the from argument, you can specify the first step and copy artifacts from that container instead.</p>
+</p>
+<h3 id="wiringeverythingupindocker">Wiring everything up in Docker</h3>
+</p>
+<p>I'm not up to doing anything particularly fancy yet (separate netoworks for separation of concerns or anything, so a basic network configuration in compose is more than enough.</p>
+</p>
+<div class="highlight"><pre><span></span><code><span class="n">networks</span><span class="o">:</span><span class="w">    </span><span class="k">default</span><span class="o">:</span><span class="w"></span>
+</code></pre></div>
+
+</p>
+<p>That's more than enough to get all the containers into a state where they can talk.</p>
+</p>
+<p>Example:</p>
+</p>
+<div class="highlight"><pre><span></span><code><span class="n">web</span><span class="o">:</span><span class="w">        </span><span class="n">build</span><span class="o">:</span><span class="w"> </span><span class="o">.</span><span class="w">        </span><span class="n">links</span><span class="o">:</span><span class="w">            </span><span class="o">-</span><span class="w"> </span><span class="n">db</span><span class="w">        </span><span class="n">ports</span><span class="o">:</span><span class="w">            </span><span class="o">-</span><span class="w"> </span><span class="s2">&quot;80:8080&quot;</span><span class="w">        </span><span class="n">environment</span><span class="o">:</span><span class="w">            </span><span class="o">-</span><span class="w"> </span><span class="n">JAVA_OPTS</span><span class="o">=</span><span class="n">$JAVA_OPTS</span><span class="w"> </span><span class="o">-</span><span class="n">Ddbserver</span><span class="o">=</span><span class="n">db</span><span class="w">        </span><span class="n">depends_on</span><span class="o">:</span><span class="w">            </span><span class="o">-</span><span class="w"> </span><span class="n">flyway_migrate</span><span class="w"></span>
+</code></pre></div>
+
+</p>
+<p>This is the last container. From here, we see the links to the DB service, the the dependency on running the database migrations.</p>
+</p>
+<p>The default network is enough that you can address containers by their service name (see the -Ddbserver arg for the environment above).</p>
+</p>
+<p>Now, I can't stress this enough, this set up <strong>isn't</strong> for production. Everything is accessible. In the future, one of my items will be to separate internal services and external services, and to put things behind a proper proxy service (probably something like HAProxy, maybe Traefik if that can handle non-http traffic).</p>
+</p>
+<h3 id="tasklistupdate">Task List Update</h3>
+</p>
+<p>I did everything in my old task list, now I need a new one!</p>
+</p>
+<ul>
+<li>Our Event Management Service</li>
+<li>Ejabberd</li>
+<li>Maybe clustered Ejabberd</li>
+<li>ActiveMQ</li>
+<li>Redis</li>
+</ul>
+</p>
+<!--kg-card-end: markdown-->
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+  <h4>Pages</h4>
+
+  <ul>
+
+    <li ><a href="/pages/about.html">about.</a></li>
+    <li ><a href="/pages/projects.html">projects.</a></li>
+    <li ><a href="/pages/resume.html">resume</a></li>
+  
+
+
+
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+ <!-- <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>-->
+</body>
+</html>

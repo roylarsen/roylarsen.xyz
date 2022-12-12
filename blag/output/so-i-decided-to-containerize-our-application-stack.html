@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>So I decided to containerize our application stack...</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <!-- <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+-->
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">blag <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/pages/about.html">about.</a></li>
+                <li><a href="/pages/projects.html">projects.</a></li>
+                <li><a href="/pages/resume.html">resume</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/so-i-decided-to-containerize-our-application-stack.html" rel="bookmark"
+                   title="Permalink to So I decided to containerize our application stack...">So I decided to containerize our application stack...</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2019-05-12T17:28:00-04:00">
+                Sun 12 May 2019
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="/author/roy.html"> roy.</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <!--kg-card-begin: markdown-->
+
+<p>This is going to be the first part of a series of posts where I'm going to document my journey containerizing our Platform.</p>
+</p>
+<p>Here's the story so far:</p>
+</p>
+<ul>
+<li><a href="https://www.roylarsen.xyz/so-i-decided-to-containerize-our-application-stack-pt-2/">Part 2</a></li>
+</ul>
+</p>
+<h2 id="firstforays">First Forays</h2>
+</p>
+<p>The beginning of this journey was extremely haphazard (aka, I was bored one night and wanted something to work on while watching TV). For fun I spun up a Server 2016 box with our software installed on it and set up <a href="https://www.roylarsen.xyz/docker-on-windows/">Docker on Windows</a> since (due to our Customers) our Platform is Windows first.</p>
+</p>
+<p>Once that was all done, I copied the .wars that make up our admin application and the distribution of tomcat that we use and threw all of that into a Dockerfile and spun it up to talk to the SQL Server instance installed on that box.</p>
+</p>
+<p>It was pretty cool to type <code>docker run</code> and connect to that tomcat instance and see it work. <a href="https://gist.github.com/roylarsen/14f0f87775e4d039e47d2c42002d0d87">Server 2016 Dockerfile</a></p>
+</p>
+<p>It's all fun to get this to work on Windows, but lets face it, Windows is a limiting factor when all the new developments in DevOps treats Windows as a Second Class Citizen at best.</p>
+</p>
+<h2 id="movingforward">Moving Forward</h2>
+</p>
+<p>Those first steps were done back in November of 2018 and I eventually picked this back up in May of 2019.</p>
+</p>
+<p>This is when I started to want to get more serious about my personal projects and wanting to learn more about containers and take learning Docker more seriously.</p>
+</p>
+<h3 id="deployingourwarstolinux">Deploying our wars to linux</h3>
+</p>
+<p>This is where things get really fun.</p>
+</p>
+<p>With the help of my awesome co-worker Valerie answering my really basic questions, I got things working.</p>
+</p>
+<p>The nice thing about Java is the WORA (write once, run anywhere) principal it follows. For the most part the initial getting things working was a case of pulling the image for Tomcat 8.5.40 and building my container by writing another pretty basic Dockerfile. <a href="https://gist.github.com/roylarsen/6c9bb232120e04ef913d20cae01e52a4">Linux Dockerfile</a></p>
+</p>
+<p>After some trial and error and tracking down dependencies (jar with the SQL Server driver, a mail library) to get things working, I got a connection to an existing database on another server, and authentication via LDAP that was already pre-configured in that database.</p>
+</p>
+<p>Getting our webapps to work on Linux has been fun, because I'm getting to learn more about Tomcat. For the most part, the server.xml is a static entity but there are items that I want to be able to pass to the container as it starts up. Mainly the DB connection string and information.</p>
+</p>
+<p>That's where I learned how to use the \$JAVA_OPTS to populate variables in the server.xml.</p>
+</p>
+<p><code>docker run -it -p 80:8080 -e "JAVA_OPTS=$JAVA_OPTS -Ddbserver=sql1" --net test mhb/heartbeat:1.0</code></p>
+</p>
+<p>Is what I've been using to launch the tomcat container with the environment variable to set the JAVA_OPTS environment variable in the container.</p>
+</p>
+<p>With <code>-e "JAVA_OPTS=$JAVA_OPTS -Ddbserver=sql1"</code> option, that sets the \$JAVA_OPTS environment variable in the container. Within the server.xml I have access to the dbserver variable that I can set with \${dbserver}.</p>
+</p>
+<p>The next iteration of this is going to involve learning the setenv.sh script so I can use environment files in my compose file so I can more securly set the variables.</p>
+</p>
+<h3 id="comingupwithatasklist">Coming up with a task list</h3>
+</p>
+<p>Once I saw that working, I came up with a list of tasks to go from the most basic of POC to an actual MVP that I can show off and see what people think.</p>
+</p>
+<ul>
+<li>Get <a href="https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-2017&amp;pivots=cs1-bash">SQL Server on Linux working in Docker</a></li>
+<li>Figure out how to run our <a href="https://flywaydb.org/">Flyway</a> migrations in Docker</li>
+<li>Wire everything up in docker</li>
+<li>Perform builds and deploy to Docker</li>
+<li>Docker Compose</li>
+</ul>
+</p>
+<p>Now I have a task list to work through</p>
+</p>
+<!--kg-card-end: markdown-->
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+  <h4>Pages</h4>
+
+  <ul>
+
+    <li ><a href="/pages/about.html">about.</a></li>
+    <li ><a href="/pages/projects.html">projects.</a></li>
+    <li ><a href="/pages/resume.html">resume</a></li>
+  
+
+
+
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+ <!-- <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>-->
+</body>
+</html>

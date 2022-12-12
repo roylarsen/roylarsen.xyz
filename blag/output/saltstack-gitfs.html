@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>saltstack gitfs</title>
+        <meta charset="utf-8" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <!-- <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+-->
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">blag <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="/">Home</a></li>
+
+                <li><a href="/pages/about.html">about.</a></li>
+                <li><a href="/pages/projects.html">projects.</a></li>
+                <li><a href="/pages/resume.html">resume</a></li>
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/saltstack-gitfs.html" rel="bookmark"
+                   title="Permalink to saltstack gitfs">saltstack gitfs</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2018-01-09T04:04:00-05:00">
+                Tue 09 January 2018
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="/author/roy.html"> roy.</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <!--kg-card-begin: markdown-->
+
+<p>This is mostly notes for myself, but I wanted to write up an easy reference.</p>
+</p>
+<h3>basics</h3>
+</p>
+<p>This is to get a basic setup with a map from saltenv to git branch.</p>
+</p>
+<p>This requires some basic knowlege of saltstack concepts like pillar, salt environments.</p>
+</p>
+<p>My setup is pretty simplistic, I have two main branches: master and dev. The branches are  </p>
+<p>present in the state and pillar repos. Top files are managed per-repo, per-branch (there are  </p>
+<p>probably better ways of handling it, but this is fine for right now).</p>
+</p>
+<p>Here's the link to the saltstack docs on gitfs: <a href="https://docs.saltstack.com/en/latest/topics/tutorials/gitfs.html">https://docs.saltstack.com/en/latest/topics/tutorials/gitfs.html</a>  </p>
+<p>For my notes/usage, I use pygit2 and ssh key auth.</p>
+</p>
+<p>First things first, you need to add your git host key to your master's known hosts:  </p>
+<p><a href="https://docs.saltstack.com/en/latest/topics/tutorials/gitfs.html#adding-the-ssh-host-key-to-the-known-hosts-file">https://docs.saltstack.com/en/latest/topics/tutorials/gitfs.html#adding-the-ssh-host-key-to-the-known-hosts-file</a></p>
+</p>
+<p>At this point you've created your repos and the branches that you want ot work with. My mapping is pretty simplistic since  </p>
+<p>I just use two branches:  </p>
+<p><strong>branch -&gt; saltenv</strong>  </p>
+<p>master -&gt; base  </p>
+<p>dev -&gt; dev  </p>
+</p>
+<h2 id="actualconfigurationstuff">actual configuration stuff</h2>
+</p>
+<p>So, there are three things that you really need to configure before we're off to the races.  </p>
+<p>These are all in your /etc/salt/master</p>
+</p>
+<p>Configuring your backend:</p>
+</p>
+<div class="highlight"><pre><span></span><code>fileserver_backend:  - git  - roots
+</code></pre></div>
+
+</p>
+<p>Configuring your state repo:</p>
+</p>
+<div class="highlight"><pre><span></span><code>gitfs_remotes:  - ssh://&lt;state git repo address&gt;.git:    - pubkey: /root/.ssh/id_rsa.pub    - privkey: /root/.ssh/id_rsa    - saltenv:      - dev:        - ref: dev      - base:        - ref: master
+</code></pre></div>
+
+</p>
+<p>In the above config, you configure your saltenv's per remote. I'm assuming you you do this over multiple  </p>
+<p>backend definitions and use saltstack's merging function. I haven't played around with it, so, don't  </p>
+<p>quote me on any of this.</p>
+</p>
+<p>Pillar repo config:</p>
+</p>
+<div class="highlight"><pre><span></span><code>ext_pillar:  - git:    - master ssh://&lt;pillar git repo address&gt;.git:      - env: base      - privkey: /root/.ssh/id_rsa      - pubkey: /root/.ssh/id_rsa.pub    - dev ssh://&lt;pillar repo address&gt;.git:      - privkey: /root/.ssh/id_rsa      - pubkey: /root/.ssh/id_rsa.pub
+</code></pre></div>
+
+</p>
+<p>If you've noticed, the pillar definition is a tad different from the state definition. Where in the state, you could define the remote once and then map the  </p>
+<p>env to the branch/ref.</p>
+</p>
+<p>For the pillar definition, you need to define the branch/ref and the repo in the same lone, then map the saltenv under it (if you want to map  </p>
+<p>saltenvs to branches that are named differently - master/base for me)</p>
+</p>
+<h2>conclusion</h2>
+</p>
+<p>That's pretty much it. Restart the salt-master and you should have it all set up:</p>
+</p>
+<div class="highlight"><pre><span></span><code>sudo salt &#39;*&#39; state.show_top&lt;id&gt;:    ----------    base:       - state       - state&lt;id2&gt;:    ----------    dev:       - state       - state
+</code></pre></div>
+
+</p>
+<p>(I removed my company specific info from that output)</p>
+</p>
+<p>I think my next post will be about my mhqa tool and the Saltstack API</p>
+</p>
+<!--kg-card-end: markdown-->
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+  <h4>Pages</h4>
+
+  <ul>
+
+    <li ><a href="/pages/about.html">about.</a></li>
+    <li ><a href="/pages/projects.html">projects.</a></li>
+    <li ><a href="/pages/resume.html">resume</a></li>
+  
+
+
+
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+ <!-- <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>-->
+</body>
+</html>
