@@ -51,5 +51,5 @@ resource "digitalocean_record" "www" {
   domain = data.digitalocean_domain.roylarsen_xyz.id
   type   = "CNAME"
   name   = "blag"
-  value  = digitalocean_app.blag.live_url
+  value  = "${digitalocean_app.blag.live_url}."
 }
