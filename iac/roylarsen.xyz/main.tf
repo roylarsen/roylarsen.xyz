@@ -29,7 +29,7 @@ resource "digitalocean_app" "blag" {
     spec {
       name   = "blag"
       region = "nyc3"
-      domain = {
+      domain {
         name = data.digitalocean_domain.roylarsen_xyz.id
       }
 
