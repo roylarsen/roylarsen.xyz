@@ -11,10 +11,6 @@ terraform {
       source = "digitalocean/digitalocean"
       version = "~> 2.25"
     }
-    namecheap = {
-      source = "namecheap/namecheap"
-      version = "~> 2.1.0"
-    }
   }
 }
 
@@ -47,14 +43,13 @@ resource "digitalocean_app" "blag" {
     }
 }
 
-resource "namecheap_domain_records" "roylarsen-xyz" {
-  domain = "roylarsen.xyz"
-  mode = "MERGE"
-  email_type = "NONE"
+data "digitalocean_domain" "roylarsen_xyz" {
+  name = "roylarsen.xyz"
+}
 
-  record {
-    hostname = "blog"
-    type = "CNAME"
-    address = digitalocean_app.blag.live_url
-  }
+resource "digitalocean_record" "www" {
+  domain = digitalocean_domain.roylarsen_xyz.id
+  type   = "CNAME"
+  name   = "blag"
+  value  = digitalocean_app.blag.live_url
 }
