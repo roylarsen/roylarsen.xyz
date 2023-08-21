@@ -21,10 +21,17 @@ resource "digitalocean_project" "roylarsen_xyz" {
   environment = "Development"
 }
 
+data "digitalocean_domain" "roylarsen_xyz" {
+  name = "roylarsen.xyz"
+}
+
 resource "digitalocean_app" "blag" {
     spec {
-      name   = "blagapp"
+      name   = "blag"
       region = "nyc3"
+      domain = {
+        name = data.digitalocean_domain.roylarsen_xyz.id
+      }
 
       static_site {
         name          = "blog-content"
@@ -41,15 +48,4 @@ resource "digitalocean_app" "blag" {
         }
       }
     }
-}
-
-data "digitalocean_domain" "roylarsen_xyz" {
-  name = "roylarsen.xyz"
-}
-
-resource "digitalocean_record" "www" {
-  domain = data.digitalocean_domain.roylarsen_xyz.id
-  type   = "CNAME"
-  name   = "blag"
-  value  = "${digitalocean_app.blag.live_url}."
 }
