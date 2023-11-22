@@ -31,7 +31,7 @@ In this we will have the DO App Service, and other support infrastructure for th
 ### Namecheap
 
 * Namecheap has a limitation to their API that you have to access it from a whitelisted IP
-* I suppose I'll have to move roylarsen.xyz to DO Domains and figure out Dynamic DNS there
-* Timebeing, I'll use xhousebreakx.org
+* ~~I suppose I'll have to move roylarsen.xyz to DO Domains and figure out Dynamic DNS there~~ I'm gonna play some DNS shenanigans with this
+* ~~Timebeing, I'll use xhousebreakx.org~~ scratch this
 
 ## Code Organization

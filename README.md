@@ -7,8 +7,8 @@ The goal of this is to eventually have this be automated and deployed to Digital
 * Setup Digital Ocean infrastructure for static site
   * Setup Access Key(s) for IaC
     * ~~Digital Ocean Key~~
-    * Namecheap Key
-  * Migrate from Namecheap to DigitalOcean?
+    * ~~Namecheap Key~~ lol, the Namecheap API is restricted to whitelisted IPs - not helpful when running from default GH Action Runners
+  * ~~Migrate from Namecheap to DigitalOcean?~~ kinda done. I pointed the subdomain for blog.* to the DO nameservers
 * IaC for roylarsen.xyz and tastefuldinosaurerotica.com
   * Terraform is the obvious answer, maybe eval Pulumi eventually?
   * Testing in PRs for Terraform

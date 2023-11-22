@@ -49,3 +49,11 @@ resource "digitalocean_app" "blag" {
       }
     }
 }
+
+resource "digitalocean_record" "blag" {
+  domain = data.digitalocean_domain.roylarsen_xyz.id
+  type   = "CNAME"
+  name   = "blog"
+  ttl    = 30
+  value  = resource.digitalocean_app.blag.default_ingress
+}
