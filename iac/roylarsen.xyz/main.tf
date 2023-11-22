@@ -42,9 +42,17 @@ resource "digitalocean_app" "blag" {
           branch         = "main"
           deploy_on_push = false
         }
-
-        routes {
-          path = "/"
+      }
+      ingress {
+        rule {
+          component {
+             name = "blagapp"
+          }
+          match {
+            path {
+              prefix = "/"
+            }
+          }
         }
       }
     }
