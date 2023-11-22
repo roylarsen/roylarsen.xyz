@@ -63,5 +63,5 @@ resource "digitalocean_record" "blag" {
   type   = "CNAME"
   name   = "blog"
   ttl    = 30
-  value  = "${resource.digitalocean_app.blag.default_ingress}."
+  value  = "replace(${resource.digitalocean_app.blag.default_ingress}, 'https://', '')."
 }
