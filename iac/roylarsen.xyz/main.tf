@@ -46,7 +46,7 @@ resource "digitalocean_app" "blag" {
       ingress {
         rule {
           component {
-             name = "blagapp"
+             name = "blag"
           }
           match {
             path {
