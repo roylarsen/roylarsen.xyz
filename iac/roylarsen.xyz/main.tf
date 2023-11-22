@@ -59,7 +59,7 @@ resource "digitalocean_app" "blag" {
 }
 
 resource "digitalocean_record" "blag" {
-  domain = data.digitalocean_domain.roylarsen_xyz.id
+  domain = data.digitalocean_domain.roylarsen_xyz.name
   type   = "CNAME"
   name   = "blog"
   ttl    = 30
