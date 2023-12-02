@@ -71,5 +71,5 @@ resource "digitalocean_record" "www" {
   type   = "CNAME"
   name   = "www"
   ttl    = 30
-  value  = "blog.roylarsen.xyz"
+  value  = "blog.roylarsen.xyz."
 }
