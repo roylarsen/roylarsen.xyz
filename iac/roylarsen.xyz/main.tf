@@ -30,8 +30,7 @@ resource "digitalocean_app" "blag" {
       name   = "blag"
       region = "nyc3"
       domain {
-        name     = "${data.digitalocean_domain.roylarsen_xyz.id}"
-        wildcard = true
+        name     = "www.${data.digitalocean_domain.roylarsen_xyz.id}"
       }
 
       static_site {
