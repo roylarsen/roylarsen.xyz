@@ -9,7 +9,7 @@ terraform {
   required_providers {
     digitalocean = {
       source = "digitalocean/digitalocean"
-      version = "~> 2.36"
+      version = "~> 2.42"
     }
   }
 }
@@ -30,7 +30,7 @@ resource "digitalocean_app" "blag" {
       name   = "blag"
       region = "nyc3"
       domain {
-        name     = "${data.digitalocean_domain.roylarsen_xyz.id}"
+        name     = "www.${data.digitalocean_domain.roylarsen_xyz.id}"
         wildcard = true
       }
 
