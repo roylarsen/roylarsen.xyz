@@ -67,10 +67,10 @@ resource "digitalocean_record" "blag" {
   value  = join("", [replace(resource.digitalocean_app.blag.default_ingress, "https://", ""), "."])
 }
 
-resource "digitalocean_record" "www" {
-  domain = data.digitalocean_domain.roylarsen_xyz.id
-  type   = "CNAME"
-  name   = "www"
-  ttl    = 30
-  value  = join("", [replace(resource.digitalocean_app.blag.default_ingress, "https://", ""), "."])
-}
+#resource "digitalocean_record" "www" {
+#  domain = data.digitalocean_domain.roylarsen_xyz.id
+#  type   = "CNAME"
+#  name   = "www"
+#  ttl    = 30
+#  value  = join("", [replace(resource.digitalocean_app.blag.default_ingress, "https://", ""), "."])
+#}
