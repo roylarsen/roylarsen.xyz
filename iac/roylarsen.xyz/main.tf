@@ -30,7 +30,11 @@ resource "digitalocean_app" "blag" {
       name   = "blag"
       region = "nyc3"
       domain {
-        name     = "www.${data.digitalocean_domain.roylarsen_xyz.id}"
+        name = "www.${data.digitalocean_domain.roylarsen_xyz.id}"
+      }
+
+      domain {
+        name = "blog.${data.digitalocean_domain.roylarsen_xyz.id}"
       }
 
       static_site {
