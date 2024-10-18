@@ -72,5 +72,5 @@ resource "digitalocean_record" "www" {
   type   = "CNAME"
   name   = "www"
   ttl    = 30
-  value  = "blog.roylarsen.xyz."
+  value  = join("", [replace(resource.digitalocean_app.blag.default_ingress, "https://", ""), "."])
 }
