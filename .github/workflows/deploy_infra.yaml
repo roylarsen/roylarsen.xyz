@@ -19,14 +19,28 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.1.7
-      - name: Terraform init
+      - name: Terraform init - roylarsen.xyz
         run: terraform init
         working-directory: iac/roylarsen.xyz/
         env:
           DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: Terraform Apply
+      - name: Terraform Apply - roylarsen.xyz
+        run: terraform apply --auto-approve
+        working-directory: iac/roylarsen.xyz/
+        env:
+          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform init - tastefuldinosaurerotica.com
+        run: terraform init
+        working-directory: iac/roylarsen.xyz/
+        env:
+          DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Terraform Apply - tastefuldinosaurerotica.com
         run: terraform apply --auto-approve
         working-directory: iac/roylarsen.xyz/
         env:
