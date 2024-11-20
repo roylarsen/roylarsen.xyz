@@ -21,7 +21,7 @@ resource "digitalocean_project" "tastefuldinosaurerotica_com" {
   environment = "Development"
 }
 
-data "digitalocean_domain" "tastefuldinosaurerotica_com" {
+resource "digitalocean_domain" "tastefuldinosaurerotica_com" {
   name = "tastefuldinosaurerotica.com"
 }
 
@@ -34,7 +34,7 @@ resource "digitalocean_droplet" "tasteful" {
 }
 
 resource "digitalocean_record" "root" {
-  domain = data.digitalocean_domain.tastefuldinosaurerotica_com.id
+  domain = digitalocean_domain.tastefuldinosaurerotica_com.id
   type   = "A"
   name   = "@"
   ttl    = 30
@@ -42,9 +42,18 @@ resource "digitalocean_record" "root" {
 }
 
 resource "digitalocean_record" "star" {
-  domain = data.digitalocean_domain.tastefuldinosaurerotica_com.id
+  domain = digitalocean_domain.tastefuldinosaurerotica_com.id
   type   = "A"
   name   = "*"
   ttl    = 30
   value  = digitalocean_droplet.tasteful.ipv4_address
 }
+
+resource "digitalocean_project_resources" "tastefuldinosaurerotica_resources" {
+  project = digitalocean_project.tastefuldinosaurerotica_com.id
+  resources = [
+    digitalocean_domain.tastefuldinosaurerotica_com.urn,
+    digitalocean_droplet.tasteful.urn
+  ]
+}
+
