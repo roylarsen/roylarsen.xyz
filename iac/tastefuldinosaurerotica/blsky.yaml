@@ -1,0 +1,25 @@
+#cloud-config
+groups:
+  - ubuntu: [root,sys]
+  - hashicorp
+
+# Add users to the system. Users are added after groups are added.
+users:
+  - default
+  - name: terraform
+    gecos: terraform
+    shell: /bin/bash
+    primary_group: hashicorp
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
+    lock_passwd: false
+    ssh_authorized_keys:
+      - # Paste your created SSH key here
+
+runcmd:
+  - curl https://raw.githubusercontent.com/bluesky-social/pds/main/installer.sh > ./installer.sh
+  - yes no | sudo bash ./installer.sh /pds tastefuldinosaurerotica.com nonades@gmail.com
+  - sudo echo "PDS_EMAIL_SMTP_URL=smtps://resend:${var.resend_smtp}@smtp.resend.com:465/" >> /pds/pds.env
+  - sudo echo "PDS_EMAIL_FROM_ADDRESS=admin@bluesky.tastefuldinosaurerotica.com" >> /pds/pds.env
+  - sudo systemctl restart pds
+
