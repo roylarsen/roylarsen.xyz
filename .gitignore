@@ -8,6 +8,6 @@
 # python stuff
 **/.venv/*
 
-# blag stuff
-#**/output/*
-
+# python build artifacts
+__pycache__/
+*.pyc
