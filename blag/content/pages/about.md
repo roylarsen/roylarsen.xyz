@@ -13,7 +13,7 @@ So, who am I?
 
 ### basics.
 
-As of my writing of this, I'm 36 years old and living in the Greater Boston Area.
+As of my writing of this, I'm 36 years old and living in the South Loop in Chicago.
 
 ---
 
