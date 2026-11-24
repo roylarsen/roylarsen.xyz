@@ -21,7 +21,7 @@ As of my writing of this, I'm 40 years old and living in the South Loop in Chica
 
 I'm currently a DevOps Engineer with [Mobile Heartbeat](https://www.mobileheartbeat.com), formally Infrastucture Engineer at [Hachette Book Group](https://www.hachettebookgroup.com), formally formally IT Specialist III at the [State of Vermont](https://www.vermont.gov)
 
-With Mobile Heartbeat, I'm currently working on building out the Terraform, configuring Kubernetes, and fighting with Azure to deploy our upcoming SaaS offering: [Banyan](https://www.mobileheartbeat.com/platform/banyan/)
+With Mobile Heartbeat, I'm currently working on building out the Terraform, configuring Kubernetes, and fighting with Azure to deploy our SaaS offering: [Banyan](https://www.mobileheartbeat.com/platform/banyan/)
 
 These days, professionally, I'm most interested in the things happening in the DevOps/SRE space. I love Python, I want to build my Platform Engineering skills more, and I want to get better at Golang.
 
