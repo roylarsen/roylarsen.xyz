@@ -23,7 +23,7 @@ I'm currently a DevOps Engineer with [Mobile Heartbeat](https://www.mobileheartb
 
 With Mobile Heartbeat, I'm currently working on building out the Terraform, configuring Kubernetes, and fighting with Azure to deploy our upcoming SaaS offering: [Banyan](https://www.mobileheartbeat.com/platform/banyan/)
 
-These days, professionally, I'm most interested in the things happening in the DevOps/SRE space. I love Python, I'm getting into Docker more and more, and I want to get better at Golang.
+These days, professionally, I'm most interested in the things happening in the DevOps/SRE space. I love Python, I want to build my Platform Engineering skills more, and I want to get better at Golang.
 
 ---
 
