@@ -42,6 +42,7 @@ There's other bands, but they're either ancient history or never did any recordi
 
 ### this site.
 
-still very much in flux  
+still very much in [flux](https://flux.io)<br>
 [Pelican](https://www.getpelican.com)  
-[Digital Ocean](https://www.digitalocean.com)
+[Proxmox](https://www.proxmox.com)<br>
+[k3s](https://k3s.io)
