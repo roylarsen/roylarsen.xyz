@@ -28,5 +28,12 @@ One of the tasks I've been doing at work is collecting the deployment data
 
 
 ### Software Factories
-So, this is the 
+So, this is the the logical extension of the skills I talked about above.
+
 ### Building Harnesses/Agents
+This is something that's not really for any reason specifically, just want to learn more about the technologies ecosystem and how things all fit together.
+
+## Thoughts on the industry, aka, giving in
+I am about as far from a thought leader as it gets. I'm literally just some guy.
+
+Lets get one thing out of the way first: regardless of what happens with the AI bubble (let's be real, it's a bubble that needs correction), it's technology that's had an oversized impact on the technology world and isn't going away. The world has changed and we need to change along with it.
